@@ -104,7 +104,7 @@ def get_ticker_from_firebase(company_name, country):
 
 
 # FastAPI 백엔드 서버 URL
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://127.0.0.1:8000"
 
 # 세션 상태 초기화
 if 'selected_symbol' not in st.session_state:
@@ -150,11 +150,9 @@ for col, (name, last_close, change, percent_change) in zip([col1, col2, col3, co
     #               change:+,.2f} ({percent_change:+,.2f}%)", delta_color="inverse")
     with col:
         if n >= 2:
-            st.metric(label=name, value=f"{
-                last_close:,.2f}", delta=f"{change:+,.2f}")
+            st.metric(label=name, value=f"{last_close:,.2f}", delta=f"{change:+,.2f}")
         else:
-            st.metric(label=name, value=f"${
-                last_close:,.2f}", delta=f"{change:+,.2f}")
+            st.metric(label=name, value=f"${last_close:,.2f}", delta=f"{change:+,.2f}")
         n = n + 1
 
 
@@ -274,4 +272,5 @@ with tab3:
 
 제공되는 정보는 '있는 그대로'의 정보 제공 목적으로만 사용되며, 투자의 책임 소재는 당사자에게 있음을 알려드립니다.
     """)
+
 
