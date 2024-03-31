@@ -51,10 +51,8 @@ def show_stock_details(country, symbol, name):
                 f"**추천 날짜 종가:** {round(stock_info['recommendation_close'], 2)}")
             st.write(f"**목표 수익률:** {stock_info['target_return']}")
             color = "green" if stock_info['return_rate'] >= 0 else "red"
-            st.markdown(f"<span style='color: {
-                        color};'>**현재 수익률: {round(stock_info['return_rate'], 2)}%**</span>", unsafe_allow_html=True)
-            st.markdown(
-                f"**추천 이유:**<br> <br> {stock_info['recommendation_reason']}", unsafe_allow_html=True)
+            st.markdown(f"<span style='color: {color};'>**현재 수익률: {round(stock_info['return_rate'], 2)}%**</span>", unsafe_allow_html=True)
+            st.markdown(f"**추천 이유:**<br> <br> {stock_info['recommendation_reason']}", unsafe_allow_html=True)
 
             # Parse the dates from string to datetime objects
             dates = pd.to_datetime(list(stock_info['price'].keys()))
@@ -276,3 +274,4 @@ with tab3:
 
 제공되는 정보는 '있는 그대로'의 정보 제공 목적으로만 사용되며, 투자의 책임 소재는 당사자에게 있음을 알려드립니다.
     """)
+
