@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run Home.py
+web: sh setup.sh && streamlit run Home.py && uvicorn backend2:app --host=0.0.0.0 --port=${PORT:-5000}
