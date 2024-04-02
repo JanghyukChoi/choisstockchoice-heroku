@@ -104,7 +104,7 @@ def get_ticker_from_firebase(company_name, country):
 
 
 # FastAPI 백엔드 서버 URL
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = "https://fastapi-app-ozus.onrender.com"
 
 # 세션 상태 초기화
 if 'selected_symbol' not in st.session_state:
