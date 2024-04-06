@@ -93,10 +93,10 @@ if not firebase_admin._apps:
     firebase_credentials = st.secrets['FIREBASE_CREDENTIALS']
 
     try:
-        # 문자열로 된 인증 정보를 JSON 객체로 변환
-        cred_dict = json.loads(firebase_credentials)
-        # Firebase 인증 정보로 변환
-        cred = credentials.Certificate(cred_dict)
+        # Streamlit Cloud의 Secrets에서 설정한 환경 변수 불러오기    
+        # Firebase 인증 정보로 변환 (json.loads() 호출이 필요 없음)
+        cred = credentials.Certificate(firebase_credentials)
+        
         # Firebase 앱 초기화
         firebase_admin.initialize_app(cred)
         
