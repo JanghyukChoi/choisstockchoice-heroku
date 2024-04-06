@@ -90,12 +90,12 @@ def get_index_info(ticker_symbol, index_name):
 # Firebase Admin SDK 초기화 (이미 초기화되어 있는 경우 생략)
 if not firebase_admin._apps:
 # Streamlit Cloud의 Secrets에서 설정한 환경 변수 불러오기
-    firebase_credentials = st.secrets['FIREBASE_CREDENTIALS']
-        # Streamlit Cloud의 Secrets에서 설정한 환경 변수 불러오기    
-        # Firebase 인증 정보로 변환 (json.loads() 호출이 필요 없음)
+    firebase_credentials = dict(st.secrets["FIREBASE_CREDENTIALS"])
+    
+    # private_key를 명시적으로 문자열로 처리
+    firebase_credentials['private_key'] = str(firebase_credentials['private_key'])
+    
     cred = credentials.Certificate(firebase_credentials)
-        
-        # Firebase 앱 초기화
     firebase_admin.initialize_app(cred)
         
 
