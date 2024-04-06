@@ -7,6 +7,8 @@ import pandas as pd
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import os
+import json
 
 
 def get_stock_info(country, symbol):
@@ -87,7 +89,16 @@ def get_index_info(ticker_symbol, index_name):
 
 # Firebase Admin SDK 초기화 (이미 초기화되어 있는 경우 생략)
 if not firebase_admin._apps:
-    cred = credentials.Certificate("credentials.json")
+        # Streamlit Cloud의 Secrets에서 설정한 환경 변수 불러오기
+    firebase_credentials = os.getenv('FIREBASE_CREDENTIALS')
+    
+    # 문자열로 된 인증 정보를 JSON 객체로 변환
+    cred_dict = json.loads(firebase_credentials)
+    
+    # Firebase 인증 정보로 변환
+    cred = credentials.Certificate(cred_dict)
+    
+    # Firebase 앱 초기화
     firebase_admin.initialize_app(cred)
 
 db = firestore.client()
