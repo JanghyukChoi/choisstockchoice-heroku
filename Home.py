@@ -97,7 +97,10 @@ if not firebase_admin._apps:
     
     cred = credentials.Certificate(firebase_credentials)
     firebase_admin.initialize_app(cred)
-        
+
+else:
+    # Firebase 앱이 이미 초기화되었을 경우, 기존 앱 사용
+    default_app = firebase_admin.get_app()
 
 db = firestore.client()
 
