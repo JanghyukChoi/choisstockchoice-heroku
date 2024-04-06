@@ -120,12 +120,10 @@ if 'selected_symbol' not in st.session_state:
     st.session_state['selected_symbol'] = None
 
 
-# 페이지 설정
-st.set_page_config(layout="wide")
 
 # Streamlit 앱의 기본 설정
 st.set_page_config(page_title="주식 추천 사이트",
-                   page_icon=":chart_with_upwards_trend:")
+                   page_icon=":chart_with_upwards_trend:",layout="wide")
 
 
 
