@@ -196,7 +196,7 @@ with tab1:
             '회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
 
         stocks_df['추천 이유'] = stocks_df['추천 이유'].apply(
-            lambda x: x if len(x) <= 25 else x[:25] + '...')
+            lambda x: x if len(x) <= 35 else x[:35] + '...')
 
         # 필터링된 데이터 표시 (수정)
         if status_option == "전체":
@@ -244,7 +244,7 @@ with tab2:
             '회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
 
         stocks_df['추천 이유'] = stocks_df['추천 이유'].apply(
-            lambda x: x if len(x) <= 25 else x[:25] + '...')
+            lambda x: x if len(x) <= 35 else x[:35] + '...')
 
         # 필터링된 데이터 표시 (수정)
         if status_option == "전체":
