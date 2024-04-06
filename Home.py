@@ -119,9 +119,15 @@ BASE_URL = "https://fastapi-app-ozus.onrender.com"
 if 'selected_symbol' not in st.session_state:
     st.session_state['selected_symbol'] = None
 
+
+# 페이지 설정
+st.set_page_config(layout="wide")
+
 # Streamlit 앱의 기본 설정
 st.set_page_config(page_title="주식 추천 사이트",
                    page_icon=":chart_with_upwards_trend:")
+
+
 
 st.title("Choi's Stock Choice 📈 ")
 
@@ -234,7 +240,7 @@ with tab2:
     response = requests.get(f"{BASE_URL}/stocks/{country}")
     if response.status_code == 200:
         stocks = response.json()
-        stocks_list = [[info['company_name']] + list(info.values())[1:]  # 첫 번째 값을 'company_name'으로 설정
+        stocks_list = [[info['company_name']] + [info['recommendation_reason']] + [info['recommendation_date']] + [info['target_return']] + [info['ing']]  # 첫 번째 값을 'company_name'으로 설정
                        for symbol, info in stocks.items()]
         stocks_df = pd.DataFrame(stocks_list, columns=[
             '회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
