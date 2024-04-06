@@ -93,10 +93,11 @@ if not firebase_admin._apps:
     firebase_credentials = st.secrets['FIREBASE_CREDENTIALS']
 
     try:
-        # private_key 내의 줄바꿈을 문자열 "\n"으로 처리
-        firebase_credentials["private_key"] = firebase_credentials["private_key"].replace('\n', '\\n')
-    
-        cred = credentials.Certificate(firebase_credentials)
+        # 문자열로 된 인증 정보를 JSON 객체로 변환
+        cred_dict = json.loads(firebase_credentials)
+        # Firebase 인증 정보로 변환
+        cred = credentials.Certificate(cred_dict)
+        # Firebase 앱 초기화
         firebase_admin.initialize_app(cred)
         
     except json.JSONDecodeError as e:
