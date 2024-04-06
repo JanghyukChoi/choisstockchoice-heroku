@@ -93,11 +93,11 @@ if not firebase_admin._apps:
     firebase_credentials = st.secrets['FIREBASE_CREDENTIALS']
 
     try:
-    # 이미 딕셔너리 형태이므로, 직접 사용
-    cred = credentials.Certificate(firebase_credentials)
-    
-    # Firebase 앱 초기화
-    firebase_admin.initialize_app(cred)
+        # 이미 딕셔너리 형태이므로, 직접 사용
+        cred = credentials.Certificate(firebase_credentials)
+        
+        # Firebase 앱 초기화
+        firebase_admin.initialize_app(cred)
     
     except json.JSONDecodeError as e:
         raise ValueError("환경 변수 'FIREBASE_CREDENTIALS'의 형식이 잘못되었습니다.") from e
