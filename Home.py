@@ -89,25 +89,18 @@ def get_index_info(ticker_symbol, index_name):
 
 # Firebase Admin SDK 초기화 (이미 초기화되어 있는 경우 생략)
 if not firebase_admin._apps:
-        # Streamlit Cloud의 Secrets에서 설정한 환경 변수 불러오기
-    firebase_credentials = os.getenv('FIREBASE_CREDENTIALS')
+# Streamlit Cloud의 Secrets에서 설정한 환경 변수 불러오기
+    firebase_credentials = st.secrets['FIREBASE_CREDENTIALS']
 
-    firebase_credentials = os.getenv('FIREBASE_CREDENTIALS')
-
-    if firebase_credentials is None:
-        raise ValueError("환경 변수 'FIREBASE_CREDENTIALS'가 설정되지 않았습니다.")
-    else:
-        try:
-            cred_dict = json.loads(firebase_credentials)
-            # Firebase 초기화 및 기타 로직 처리...
-        except json.JSONDecodeError as e:
-            raise ValueError("환경 변수 'FIREBASE_CREDENTIALS'의 형식이 잘못되었습니다.") from e
-    
-    # Firebase 인증 정보로 변환
-    cred = credentials.Certificate(cred_dict)
-    
-    # Firebase 앱 초기화
-    firebase_admin.initialize_app(cred)
+    try:
+        # 문자열로 된 인증 정보를 JSON 객체로 변환
+        cred_dict = json.loads(firebase_credentials)
+        # Firebase 인증 정보로 변환
+        cred = credentials.Certificate(cred_dict)
+        # Firebase 앱 초기화
+        firebase_admin.initialize_app(cred)
+    except json.JSONDecodeError as e:
+        raise ValueError("환경 변수 'FIREBASE_CREDENTIALS'의 형식이 잘못되었습니다.") from e
 
 db = firestore.client()
 
