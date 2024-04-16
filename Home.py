@@ -50,7 +50,7 @@ def show_stock_details(country, symbol, name):
             st.write(f"**목표 수익률:** {stock_info['target_return']}")
             color = "green" if stock_info['return_rate'] >= 0 else "red"
             st.markdown(f"<span style='color: {color};'>**현재 수익률: {round(stock_info['return_rate'], 2)}%**</span>", unsafe_allow_html=True)
-            file_path = f"{name}/스크린샷_myfile.jpg"
+            file_path = f"{name}/스크린샷_myfile.png"
             # 스토리지 버킷에서 파일에 대한 참조 생성
             blob = bucket.blob(file_path)
             
