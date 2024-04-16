@@ -107,7 +107,7 @@ if not firebase_admin._apps:
     
     cred = credentials.Certificate(firebase_credentials)
     if not firebase_admin._apps:
-    firebase_admin.initialize_app(cred, {
+        firebase_admin.initialize_app(cred, {
         'storageBucket': 'stockrecommendationforme.appspot.com'
     })
 
