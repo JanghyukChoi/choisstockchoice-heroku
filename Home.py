@@ -19,18 +19,20 @@ def get_stock_info(country, symbol):
     else:
         return None
 
-
 def get_stock_history(symbol, recommendation_date, current_date):
     """주식의 히스토리 데이터를 가져오는 함수입니다."""
     stock = yf.Ticker(symbol)
     hist = stock.history(start=recommendation_date, end=current_date)
     return hist
 
+# 데이터 캐싱을 위한 st.cache 데코레이터 사용, ttl을 60초(1분)로 설정
+@st.cache(ttl=60)
+def cached_get_stock_info(country, symbol):
+    return get_stock_info(country, symbol)
 
-# 데이터 캐싱을 위한 st.cache_data 데코레이터 사용
-cached_get_stock_info = st.cache_data(get_stock_info)
-cached_get_stock_history = st.cache_data(get_stock_history)
-
+@st.cache(ttl=60)
+def cached_get_stock_history(symbol, recommendation_date, current_date):
+    return get_stock_history(symbol, recommendation_date, current_date)
 
 def create_link(country, symbol):
     """주식 종목의 Yahoo Finance 페이지로의 링크를 생성합니다."""
@@ -39,14 +41,11 @@ def create_link(country, symbol):
     else:
         return f"https://finance.yahoo.com/quote/{symbol}"
 
-
 def show_stock_details(country, symbol, name):
     with st.spinner('주식 정보를 불러오는 중...'):
-        # Ensure this function can handle async call
         stock_info = cached_get_stock_info(country, symbol)
         if stock_info:
             st.write(f"### {name} 종목 상세 정보")
-            # Assuming `create_link` generates a clickable link to view more details
             st.write(create_link(country, symbol))
             st.write(f"**마지막 종가:** {round(stock_info['last_close'], 2)}")
             st.write(
@@ -56,18 +55,16 @@ def show_stock_details(country, symbol, name):
             st.markdown(f"<span style='color: {color};'>**현재 수익률: {round(stock_info['return_rate'], 2)}%**</span>", unsafe_allow_html=True)
             st.markdown(f"**추천 이유:**<br> <br> {stock_info['recommendation_reason']}", unsafe_allow_html=True)
 
-            # Parse the dates from string to datetime objects
             dates = pd.to_datetime(list(stock_info['price'].keys()))
             prices = list(stock_info['price'].values())
 
             plt.figure(figsize=(10, 5))
-            plt.plot(dates, prices, label='Close Price',
-                     marker='o', linestyle='-', markersize=5)
+            plt.plot(dates, prices, label='Close Price', marker='o', linestyle='-', markersize=5)
             plt.title(f"{symbol} Closing Price Chart")
             plt.xlabel("Date")
             plt.ylabel("Close Price (USD)")
-            plt.xticks(rotation=45)  # Rotate dates for better readability
-            plt.tight_layout()  # Adjust layout to make room for the rotated date labels
+            plt.xticks(rotation=45)
+            plt.tight_layout()
             plt.legend()
             st.pyplot(plt)
         else:
