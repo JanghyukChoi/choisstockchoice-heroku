@@ -205,7 +205,7 @@ success_rate, total_success, total_failure, ing = calculate_success_rate()
 #---------------------------------------------
 
 # 성과 통계 제목
-st.write("### Performance Statistics")
+st.write("### Performance Statistics 📊 ")
 
 # 성과 통계를 나란히 표시하기 위한 컬럼 설정
 cols = st.columns(3)
@@ -229,7 +229,7 @@ st.markdown(
 st.write("")
 
 # 제목
-st.write("### Watchlist")
+st.write("### Watchlist 👀")
 
 
 # 탭 생성
