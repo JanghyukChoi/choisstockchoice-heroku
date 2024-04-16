@@ -15,8 +15,8 @@ import json
 # FastAPI backend server URL
 BASE_URL = "http://localhost:8000"
 
-
-def get_stock_info(country, symbol):
+@st.cache(ttl=180)
+def cached_get_stock_info(country, symbol):
     """주식 정보를 가져오는 함수입니다."""
     response = requests.get(f"{BASE_URL}/stocks/{country}/{symbol}")
     if response.status_code == 200:
@@ -31,12 +31,6 @@ def get_stock_history(symbol, recommendation_date, current_date):
     hist = stock.history(start=recommendation_date, end=current_date)
     return hist
 
-
-# 데이터 캐싱을 위한 st.cache_data 데코레이터 사용
-cached_get_stock_info = st.cache_data(get_stock_info)
-cached_get_stock_history = st.cache_data(get_stock_history)
-
-
 def create_link(country, symbol):
     """주식 종목의 Yahoo Finance 페이지로의 링크를 생성합니다."""
     if country == 'KR':
@@ -48,7 +42,7 @@ def create_link(country, symbol):
 def show_stock_details(country, symbol, name):
     with st.spinner('주식 정보를 불러오는 중...'):
         # Ensure this function can handle async call
-        stock_info = get_stock_info(country, symbol)
+        stock_info = cached_get_stock_info(country, symbol)
         if stock_info:
             st.write(f"### {name} 종목 상세 정보")
             # Assuming `create_link` generates a clickable link to view more details
