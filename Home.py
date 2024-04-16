@@ -115,7 +115,7 @@ if not firebase_admin._apps:
 db = firestore.client()
 
 # Storage 버킷 접근
-bucket = storage.bucket()
+bucket = storage.bucket('stockrecommendationforme.appspot.com')
 
 
 def get_ticker_from_firebase(company_name, country):
