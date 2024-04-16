@@ -204,10 +204,20 @@ def calculate_success_rate():
 success_rate, total_success, total_failure, ing = calculate_success_rate()
 #---------------------------------------------
 
+# 성과 통계 제목
 st.write("### Performance Statistics")
-st.metric(label="Success Rate", value=f"{success_rate:.2f}%")
-st.metric(label="Total Success", value=f"{total_success}")
-st.metric(label="Total Failure", value=f"{total_failure}")
+
+# 성과 통계를 나란히 표시하기 위한 컬럼 설정
+cols = st.columns(3)
+
+with cols[0]:
+    st.metric(label="Success Rate", value=f"{success_rate:.2f}%", delta=None)
+
+with cols[1]:
+    st.metric(label="Total Success", value=f"{total_success}", delta=None)
+
+with cols[2]:
+    st.metric(label="Total Failure", value=f"{total_failure}", delta=None)
 
 
 st.markdown(
@@ -217,6 +227,9 @@ st.markdown(
     unsafe_allow_html=True
 )
 st.write("")
+
+# 제목
+st.write("### Watchlist")
 
 
 # 탭 생성
