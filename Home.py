@@ -173,9 +173,9 @@ for col, (name, last_close, change, percent_change) in zip([col1, col2, col3, co
     #               change:+,.2f} ({percent_change:+,.2f}%)", delta_color="inverse")
     with col:
         if n >= 2:
-            st.metric(label=name, value=f"{last_close:,.2f}", delta=f"{change:+,.2f}")
+            st.metric(label=name, value=f"{last_close:,.2f}", delta=f"{percent_change:+,.2f}%")
         else:
-            st.metric(label=name, value=f"${last_close:,.2f}", delta=f"{change:+,.2f}")
+            st.metric(label=name, value=f"${last_close:,.2f}", delta=f"{percent_change:+,.2f}%")
         n = n + 1
 
 #---------------------------------------------
