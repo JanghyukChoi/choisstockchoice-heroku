@@ -135,18 +135,6 @@ st.set_page_config(page_title="주식 추천 사이트",
 
 st.title("Choi's Stock Choice Website")
 
-
-st.write('''
-📈 **미국 & 한국 주식 시장 관심 종목** 📈
-
-개인적인 관심 종목들을 선별해 공유하는 공간입니다.
-
-- 목표 수익률 : 제가 추천하는 종목들은 한 달간의 목표 수익률을 설정하고 있습니다.
-- 성공 조건 : 만약 한 달 이내에 이 목표를 달성하면 수익을 실현합니다.
-- 실패 조건 : 반대로, 한 달 내에 목표 수익률의 절반 이상 손실이 발생하면 즉시 손절매를 진행합니다.
-''')
-
-
 # 나스닥, S&P 500, 다우존스 정보 가져오기
 indices_info = [
     get_index_info("^IXIC", "NASDAQ"),
@@ -181,6 +169,20 @@ for col, (name, last_close, change, percent_change) in zip([col1, col2, col3, co
         else:
             st.metric(label=name, value=f"${last_close:,.2f}", delta=f"{percent_change:+,.2f}%")
         n = n + 1
+
+
+st.write('''
+📈 **미국 & 한국 주식 시장 관심 종목** 📈
+
+개인적인 관심 종목들을 선별해 공유하는 공간입니다.
+
+- 목표 수익률 : 제가 추천하는 종목들은 한 달간의 목표 수익률을 설정하고 있습니다.
+- 성공 조건 : 만약 한 달 이내에 이 목표를 달성하면 수익을 실현합니다.
+- 실패 조건 : 반대로, 한 달 내에 목표 수익률의 절반 이상 손실이 발생하면 즉시 손절매를 진행합니다.
+''')
+
+
+
 st.markdown(
     """
     <div style='background-color: white; height: 2px; margin: 30px 0;'></div>
