@@ -50,7 +50,7 @@ def create_link(country, symbol):
 def show_stock_details(country, symbol, name):
     with st.spinner('주식 정보를 불러오는 중...'):
         # Ensure this function can handle async call
-        stock_info = cached_get_stock_info(country, symbol)
+        stock_info = get_stock_info(country, symbol)
         if stock_info:
             st.write(f"### {name} 종목 상세 정보")
             # Assuming `create_link` generates a clickable link to view more details
