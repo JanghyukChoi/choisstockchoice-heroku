@@ -170,6 +170,8 @@ for col, (name, last_close, change, percent_change) in zip([col1, col2, col3, co
             st.metric(label=name, value=f"${last_close:,.2f}", delta=f"{percent_change:+,.2f}%")
         n = n + 1
 
+st.write("")
+st.write("")
 
 st.write('''
 📈 **미국 & 한국 주식 시장 관심 종목** 📈
