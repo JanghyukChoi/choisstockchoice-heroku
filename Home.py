@@ -8,12 +8,9 @@ from datetime import datetime
 import pandas as pd
 import firebase_admin
 from firebase_admin import credentials
-from firebase_admin import firestore
+from firebase_admin import firestore, storage
 import os
 import json
-
-# FastAPI backend server URL
-BASE_URL = "http://localhost:8000"
 
 @st.cache(ttl=180)
 def cached_get_stock_info(country, symbol):
@@ -53,6 +50,13 @@ def show_stock_details(country, symbol, name):
             st.write(f"**목표 수익률:** {stock_info['target_return']}")
             color = "green" if stock_info['return_rate'] >= 0 else "red"
             st.markdown(f"<span style='color: {color};'>**현재 수익률: {round(stock_info['return_rate'], 2)}%**</span>", unsafe_allow_html=True)
+            file_path = f"{name}/스크린샷_myfile.jpg"
+            # 스토리지 버킷에서 파일에 대한 참조 생성
+            blob = bucket.blob(file_path)
+            
+            # 파일의 공개 URL 생성 (영구적인 공개 URL)
+            blob.make_public()
+            st.image(blob.public_url , caption='차트 분석 이미지')
             st.markdown(f"**추천 이유:**<br> <br> {stock_info['recommendation_reason']}", unsafe_allow_html=True)
 
             # Parse the dates from string to datetime objects
@@ -102,10 +106,16 @@ if not firebase_admin._apps:
     firebase_credentials['private_key'] = str(firebase_credentials['private_key'])
     
     cred = credentials.Certificate(firebase_credentials)
-    firebase_admin.initialize_app(cred)
+    if not firebase_admin._apps:
+    firebase_admin.initialize_app(cred, {
+        'storageBucket': 'stockrecommendationforme.appspot.com'
+    })
 
 
 db = firestore.client()
+
+# Storage 버킷 접근
+bucket = storage.bucket()
 
 
 def get_ticker_from_firebase(company_name, country):
@@ -116,6 +126,17 @@ def get_ticker_from_firebase(company_name, country):
     for doc in docs:
         return doc.id  # Document ID가 티커와 일치한다고 가정
     return None
+
+def get_image_url(file_path):
+    # 스토리지 내 파일에 대한 참조 생성
+    blob = bucket.blob(file_path)
+    
+    # 파일의 공개 URL 생성
+    # 옵션: 서명된 URL 생성, 유효 기간 설정 가능
+    url = blob.generate_signed_url(version='v4', expiration=datetime.timedelta(seconds=300), method='GET')
+    return url
+
+
 
 
 # FastAPI 백엔드 서버 URL
