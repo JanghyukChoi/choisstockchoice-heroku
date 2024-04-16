@@ -222,7 +222,7 @@ with cols[2]:
 
 st.markdown(
     """
-    <div style='background-color: white; height: 2px; margin: 30px 0;'></div>
+    <div style='background-color: white; height: 1px; margin: 30px 0;'></div>
     """,
     unsafe_allow_html=True
 )
