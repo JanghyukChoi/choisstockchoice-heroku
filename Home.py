@@ -65,7 +65,9 @@ def show_stock_details(country, symbol, name):
 
 def get_index_info(ticker_symbol, index_name):
     try:
+        # 주말 및 공휴일을 고려하여 최대 7일간의 데이터를 가져옵니다.
         nasdaq_data = yf.download(ticker_symbol, period="7d")
+        # 데이터 프레임에서 마지막으로 사용 가능한 두 개의 데이터를 추출합니다.
         closing_prices = nasdaq_data['Close'].dropna()
         if len(closing_prices) >= 2:
             latest_close = closing_prices.iloc[-1]
