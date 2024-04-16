@@ -74,17 +74,24 @@ def show_stock_details(country, symbol, name):
             st.error("선택한 종목의 상세 정보를 가져올 수 없습니다.")
 
 
-# 지수 정보를 가져오는 함수 정의
 def get_index_info(ticker_symbol, index_name):
-    nasdaq_data = yf.download(ticker_symbol, period="2d")
-    # Extract closing prices
-    closing_prices = nasdaq_data['Close']
-    latest_close = closing_prices.iloc[-1]
-    previous_close = closing_prices.iloc[-2]
-    change = latest_close - previous_close
-    percent_change = (change / previous_close) * 100
+    try:
+        # 주말 및 공휴일을 고려하여 최대 7일간의 데이터를 가져옵니다.
+        nasdaq_data = yf.download(ticker_symbol, period="7d")
+        # 데이터 프레임에서 마지막으로 사용 가능한 두 개의 데이터를 추출합니다.
+        closing_prices = nasdaq_data['Close'].dropna()
+        if len(closing_prices) >= 2:
+            latest_close = closing_prices.iloc[-1]
+            previous_close = closing_prices.iloc[-2]
+            change = latest_close - previous_close
+            percent_change = (change / previous_close) * 100
+            return index_name, latest_close, change, percent_change
+        else:
+            raise ValueError("Not enough data to calculate changes.")
+    except Exception as e:
+        st.error(f"Error retrieving data for {index_name}: {str(e)}")
+        return index_name, None, None, None
 
-    return index_name, latest_close, change, percent_change
 
 
 # Firebase Admin SDK 초기화 (이미 초기화되어 있는 경우 생략)
