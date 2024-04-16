@@ -14,7 +14,7 @@ import json
 # FastAPI backend server URL
 BASE_URL = "https://fastapi-app-ozus.onrender.com"
 
-@st.cache_data(ttl=60)
+@st.cache_data()
 def cached_get_stock_info(country, symbol):
     response = requests.get(f"{BASE_URL}/stocks/{country}/{symbol}")
     if response.status_code == 200:
