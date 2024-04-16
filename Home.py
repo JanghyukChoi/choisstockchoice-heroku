@@ -34,11 +34,6 @@ def get_stock_history(symbol, recommendation_date, current_date):
     return hist
 
 
-# 데이터 캐싱을 위한 st.cache_data 데코레이터 사용
-cached_get_stock_info =  get_stock_info
-cached_get_stock_history =  st.cache_data(get_stock_history)
-
-
 def create_link(country, symbol):
     """주식 종목의 Yahoo Finance 페이지로의 링크를 생성합니다."""
     if country == 'KR':
