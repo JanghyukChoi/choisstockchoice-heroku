@@ -35,7 +35,7 @@ def get_stock_history(symbol, recommendation_date, current_date):
 
 
 # 데이터 캐싱을 위한 st.cache_data 데코레이터 사용
-cached_get_stock_info =  st.cache_data(get_stock_info)
+cached_get_stock_info =  get_stock_info
 cached_get_stock_history =  st.cache_data(get_stock_history)
 
 
