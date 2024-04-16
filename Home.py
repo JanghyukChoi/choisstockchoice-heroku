@@ -24,7 +24,9 @@ def get_stock_info(country, symbol):
     if response.status_code == 200:
         return response.json()
     else:
+        print(f"Failed to fetch stock info: {response.status_code}, {response.text}")
         return None
+
 
 
 def get_stock_history(symbol, recommendation_date, current_date):
