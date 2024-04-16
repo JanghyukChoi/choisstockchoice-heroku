@@ -20,7 +20,7 @@ def get_stock_info(country, symbol):
     if response.status_code == 200:
         return response.json()
     else:
-        return None
+        return print("함수 실행이 안됐습니다")
 
 def get_stock_history(symbol, recommendation_date, current_date):
     """주식의 히스토리 데이터를 가져오는 함수입니다."""
