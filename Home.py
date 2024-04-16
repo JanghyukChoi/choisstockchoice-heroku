@@ -72,8 +72,8 @@ def show_stock_details(country, symbol, name):
             plt.tight_layout()  # Adjust layout to make room for the rotated date labels
             plt.legend()
             st.pyplot(plt)
-        # else:
-        #     st.error("선택한 종목의 상세 정보를 가져올 수 없습니다.")
+        else:
+            print(stock_info)
 
 
 def get_index_info(ticker_symbol, index_name):
