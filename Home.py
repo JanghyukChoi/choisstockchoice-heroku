@@ -12,10 +12,8 @@ from firebase_admin import firestore
 import os
 import json
 
-
 # FastAPI backend server URL
 BASE_URL = "http://localhost:8000"
-
 
 
 def get_stock_info(country, symbol):
@@ -24,9 +22,7 @@ def get_stock_info(country, symbol):
     if response.status_code == 200:
         return response.json()
     else:
-        st.error(f"Failed to fetch stock info: {response.status_code}, {response.text}")
         return None
-
 
 
 def get_stock_history(symbol, recommendation_date, current_date):
@@ -34,6 +30,11 @@ def get_stock_history(symbol, recommendation_date, current_date):
     stock = yf.Ticker(symbol)
     hist = stock.history(start=recommendation_date, end=current_date)
     return hist
+
+
+# 데이터 캐싱을 위한 st.cache_data 데코레이터 사용
+cached_get_stock_info = st.cache_data(get_stock_info)
+cached_get_stock_history = st.cache_data(get_stock_history)
 
 
 def create_link(country, symbol):
@@ -75,7 +76,7 @@ def show_stock_details(country, symbol, name):
             plt.legend()
             st.pyplot(plt)
         else:
-            print(stock_info)
+            st.error("선택한 종목의 상세 정보를 가져올 수 없습니다.")
 
 
 def get_index_info(ticker_symbol, index_name):
@@ -300,5 +301,6 @@ with tab3:
 
 제공되는 정보는 '있는 그대로'의 정보 제공 목적으로만 사용되며, 투자의 책임 소재는 당사자에게 있음을 알려드립니다.
     """)
+
 
 
