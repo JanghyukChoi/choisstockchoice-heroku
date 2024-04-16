@@ -200,7 +200,7 @@ with tab1:
     response = requests.get(f"{BASE_URL}/stocks/{country}")
     if response.status_code == 200:
         stocks = response.json()
-        stocks_list = [[info['company_name']] + [info['recommendation_reason']] + [info['recommendation_date']] + [info['target_return']] + [info['ing']]  # 첫 번째 값을 'company_name'으로 설정
+        stocks_list = [[info['company_name']] + [info['recommendation_reason']] + [info['recommendation_date']] + [str('+') + str(info['target_return']) + '%'] + [info['ing']]  # 첫 번째 값을 'company_name'으로 설정
                        for symbol, info in stocks.items()]
         stocks_df = pd.DataFrame(stocks_list, columns=[
             '회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
@@ -248,7 +248,7 @@ with tab2:
     response = requests.get(f"{BASE_URL}/stocks/{country}")
     if response.status_code == 200:
         stocks = response.json()
-        stocks_list = [[info['company_name']] + [info['recommendation_reason']] + [info['recommendation_date']] + [info['target_return']] + [info['ing']]  # 첫 번째 값을 'company_name'으로 설정
+        stocks_list = [[info['company_name']] + [info['recommendation_reason']] + [info['recommendation_date']] + [str('+') + str(info['target_return']) + '%'] + [info['ing']]  # 첫 번째 값을 'company_name'으로 설정
                        for symbol, info in stocks.items()]
         stocks_df = pd.DataFrame(stocks_list, columns=[
             '회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
