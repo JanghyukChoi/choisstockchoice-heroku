@@ -178,6 +178,29 @@ for col, (name, last_close, change, percent_change) in zip([col1, col2, col3, co
             st.metric(label=name, value=f"${last_close:,.2f}", delta=f"{change:+,.2f}")
         n = n + 1
 
+#---------------------------------------------
+def calculate_success_rate():
+    response = requests.get(f"{BASE_URL}/stocks/success/")
+    if response.status_code == 200:
+        stocks = response.json()
+        total_success = stocks['성공']
+        total_failure = stocks['실패']
+        ing = stocks['진행중']
+        total_finished = total_success + total_failure
+        if total_finished > 0:
+            success_rate = (total_success / total_finished) * 100
+        else:
+            success_rate = 0
+        return success_rate, total_success, total_failure, ing
+    
+success_rate, total_success, total_failure, ing = calculate_success_rate()
+#---------------------------------------------
+
+st.write("### Performance Statistics")
+st.metric(label="Success Rate", value=f"{success_rate:.2f}%")
+st.metric(label="Total Success", value=f"{total_success}")
+st.metric(label="Total Failure", value=f"{total_failure}")
+
 
 st.markdown(
     """
