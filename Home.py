@@ -133,7 +133,7 @@ st.set_page_config(page_title="주식 추천 사이트",
 
 
 
-st.title("Choi's Stock Choice 📈 ")
+st.title("Choi's Stock Choice 🇰🇷 ")
 
 
 st.write('''
