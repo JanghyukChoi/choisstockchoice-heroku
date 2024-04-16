@@ -14,33 +14,40 @@ import json
 # FastAPI backend server URL
 BASE_URL = "https://fastapi-app-ozus.onrender.com"
 
-@st.cache_data()
-def cached_get_stock_info(country, symbol):
+def get_stock_info(country, symbol):
+    """주식 정보를 가져오는 함수입니다."""
     response = requests.get(f"{BASE_URL}/stocks/{country}/{symbol}")
     if response.status_code == 200:
         return response.json()
     else:
         return None
 
+def get_stock_history(symbol, recommendation_date, current_date):
+    """주식의 히스토리 데이터를 가져오는 함수입니다."""
+    stock = yf.Ticker(symbol)
+    hist = stock.history(start=recommendation_date, end=current_date)
+    return hist
+
 def create_link(country, symbol):
+    """주식 종목의 Yahoo Finance 페이지로의 링크를 생성합니다."""
     if country == 'KR':
         return f"https://finance.naver.com/item/main.naver?code={symbol}"
     else:
         return f"https://finance.yahoo.com/quote/{symbol}"
 
 def show_stock_details(country, symbol, name):
-    with st.spinner('Loading stock information...'):
-        stock_info = cached_get_stock_info(country, symbol)
+    with st.spinner('주식 정보를 불러오는 중...'):
+        stock_info = get_stock_info(country, symbol)
         if stock_info:
-            st.write(f"### {name} Stock Details")
+            st.write(f"### {name} 종목 상세 정보")
             st.write(create_link(country, symbol))
-            st.write(f"**Last Close Price:** {round(stock_info['last_close'], 2)}")
-            st.write(f"**Recommendation Close Price:** {round(stock_info['recommendation_close'], 2)}")
-            st.write(f"**Target Return:** {stock_info['target_return']}")
+            st.write(f"**마지막 종가:** {round(stock_info['last_close'], 2)}")
+            st.write(f"**추천 날짜 종가:** {round(stock_info['recommendation_close'], 2)}")
+            st.write(f"**목표 수익률:** {stock_info['target_return']}")
             color = "green" if stock_info['return_rate'] >= 0 else "red"
-            st.markdown(f"<span style='color: {color};'>**Current Return: {round(stock_info['return_rate'], 2)}%**</span>", unsafe_allow_html=True)
-            st.markdown(f"**Recommendation Reason:**<br><br>{stock_info['recommendation_reason']}", unsafe_allow_html=True)
-            dates = pd.to_datetime(list(stock_info['price']._keys()))
+            st.markdown(f"<span style='color: {color};'>**현재 수익률: {round(stock_info['return_rate'], 2)}%**</span>", unsafe_allow_html=True)
+            st.markdown(f"**추천 이유:**<br> <br> {stock_info['recommendation_reason']}", unsafe_allow_html=True)
+            dates = pd.to_datetime(list(stock_info['price'].keys()))
             prices = list(stock_info['price'].values())
             plt.figure(figsize=(10, 5))
             plt.plot(dates, prices, label='Close Price', marker='o', linestyle='-', markersize=5)
@@ -52,7 +59,8 @@ def show_stock_details(country, symbol, name):
             plt.legend()
             st.pyplot(plt)
         else:
-            st.error("Failed to fetch details for the selected stock.")
+            st.error("선택한 종목의 상세 정보를 가져올 수 없습니다.")
+
 
 
 def get_index_info(ticker_symbol, index_name):
