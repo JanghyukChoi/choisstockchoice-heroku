@@ -169,7 +169,7 @@ st.sidebar.header("Main Page")
 
 status_option = st.sidebar.selectbox(
     "목표수익률 달성 여부",
-    options=["전체", "진행중", "완료", "실패"],
+    options=["전체", "진행중", "성공", "실패"],
     index=0  # '전체'를 기본값으로 설정
 )
 
