@@ -237,7 +237,7 @@ success_rate, total_success, total_failure, ing = calculate_success_rate()
 st.write("### Performance Statistics 📊 ")
 
 # 성과 통계를 나란히 표시하기 위한 컬럼 설정
-cols = st.columns(3)
+cols = st.columns(4)
 
 with cols[0]:
     st.metric(label="Success Rate", value=f"{success_rate:.2f}%", delta=None)
@@ -247,6 +247,9 @@ with cols[1]:
 
 with cols[2]:
     st.metric(label="Total Failure", value=f"{total_failure}", delta=None)
+
+with cols[3]:
+    st.metric(label="In Progress", value=f"{ing}", delta=None)
 
 
 st.markdown(
