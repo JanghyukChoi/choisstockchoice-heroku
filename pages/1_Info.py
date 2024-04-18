@@ -55,14 +55,14 @@ with tab1:
         symbol_selected = st.selectbox("", stocks_df['회사명'])
 
     if symbol_selected:
+	    
         # 회사 이름에 해당하는 티커를 Firebase에서 조회
         ticker = get_ticker_from_firebase(symbol_selected, country)
         if ticker:
-                st.session_state['selected_symbol'] = ticker
-                show_stock_details(country, ticker, symbol_selected)
-
+	
+        	st.session_state['selected_symbol'] = ticker
 	        data_load_state = st.text('Loading data...')
-	        data = load_data(selected_stock)
+	        data = load_data(ticker)
 	        data_load_state.text('Loading data... done!')
 		
 	        st.subheader('Raw data')
