@@ -75,7 +75,7 @@ with tab1:
         stocks_list = [[info['company_name'], info['recommendation_reason'], info['recommendation_date'], '+' + str(info['target_return']) + '%', info['ing']]
                        for symbol, info in stocks.items()]
         stocks_df = pd.DataFrame(stocks_list, columns=['회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
-        st.write("### 상세 정보를 보고 싶은 종목을 선택하세요:")
+        st.write("## 상세 정보를 보고 싶은 종목을 선택하세요:")
         symbol_selected = st.selectbox("", stocks_df['회사명'])
 
         st.markdown(
@@ -145,7 +145,7 @@ with tab2:
         stocks_list = [[info['company_name'], info['recommendation_reason'], info['recommendation_date'], '+' + str(info['target_return']) + '%', info['ing']]
                        for symbol, info in stocks.items()]
         stocks_df = pd.DataFrame(stocks_list, columns=['회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
-        st.write("### 상세 정보를 보고 싶은 종목을 선택하세요:")
+        st.write("## 상세 정보를 보고 싶은 종목을 선택하세요:")
         symbol_selected = st.selectbox("", stocks_df['회사명'])
 
 
