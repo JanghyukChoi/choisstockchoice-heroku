@@ -9,5 +9,7 @@ uvicorn==0.17.6
 pydeck==0.8.1b0
 finance-datareader==0.9.90
 numpy==1.24.0
-fbprophet==0.7.1
+pystan==2.18.0.0
 convertdate==2.4.0 
+fbprophet==0.7.1
+
