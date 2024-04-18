@@ -14,6 +14,20 @@ from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go
 
+# Firebase Admin SDK 초기화 (이미 초기화되어 있는 경우 생략)
+if not firebase_admin._apps:
+# Streamlit Cloud의 Secrets에서 설정한 환경 변수 불러오기
+    firebase_credentials = dict(st.secrets["FIREBASE_CREDENTIALS"])
+    
+    # private_key를 명시적으로 문자열로 처리
+    firebase_credentials['private_key'] = str(firebase_credentials['private_key'])
+    
+    cred = credentials.Certificate(firebase_credentials)
+    firebase_admin.initialize_app(cred)
+
+
+db = firestore.client()
+
 def get_ticker_from_firebase(company_name, country):
     """Firebase에서 주어진 회사 이름에 해당하는 티커를 조회합니다."""
     collection_name = 'stockRecommendationsKR' if country == 'KR' else 'stockRecommendationsUS'
