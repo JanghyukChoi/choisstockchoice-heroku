@@ -49,6 +49,12 @@ def load_data(ticker):
     data.reset_index(inplace=True)
     return data
 
+@st.cache
+def load_data_kr(ticker):
+    data = fdr.DataReader(symbol, START, TODAY)
+    data.reset_index(inplace=True)
+    return data
+
 
 st.title('Stock Forecast App')
 
@@ -130,7 +136,7 @@ with tab2:
             if ticker:
                 st.session_state['selected_symbol'] = ticker
                 data_load_state = st.text('Loading data...')
-                data = load_data(ticker)
+                data = load_data_kr(ticker)
                 data_load_state.text('Loading data... done!')
 
                 st.subheader('Raw data')
