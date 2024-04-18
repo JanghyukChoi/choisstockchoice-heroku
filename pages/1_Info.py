@@ -57,7 +57,9 @@ def load_data_kr(ticker):
     return data
 
 
-st.title('Stock Forecast App')
+st.title('머신러닝으로 주가 예측하기')
+
+st.write('이 페이지는 제가 직접 선정한 주식 목록을 바탕으로, 머신러닝 기법을 활용하여 향후 한 달간의 주가 예측을 제공하는 공간입니다.')
 
 # 탭 생성
 tab1, tab2, tab3 = st.tabs(["미국 주식", "한국 주식", "Help"])
