@@ -14,6 +14,10 @@ from prophet import Prophet
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go
 
+
+START = "2020-01-01"
+TODAY = date.today().strftime("%Y-%m-%d")
+
 # Firebase Admin SDK 초기화 (이미 초기화되어 있는 경우 생략)
 if not firebase_admin._apps:
 # Streamlit Cloud의 Secrets에서 설정한 환경 변수 불러오기
