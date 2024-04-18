@@ -78,45 +78,39 @@ with tab1:
         if symbol_selected:
             ticker = get_ticker_from_firebase(symbol_selected, country)
             if ticker:
-                st.session_state['selected_symbol'] = ticker
                 data_load_state = st.text('Loading data...')
                 data = load_data(ticker)
                 data_load_state.text('Loading data... done!')
 
-                st.subheader('Raw data')
-                st.write(data.tail())
-                
-                fig = go.Figure()
-                fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
-                fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
-                fig.layout.update(title_text='Time Series data with Rangeslider', xaxis_rangeslider_visible=True)
-                st.plotly_chart(fig)
-
-                # Predict forecast with Prophet.
+                # Prophet 모델 학습 및 예측
                 df_train = data[['Date', 'Close']]
                 df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
-                
                 m = Prophet()
                 m.fit(df_train)
-                future = m.make_future_dataframe(periods=20)
+                future = m.make_future_dataframe(periods=30)
                 forecast = m.predict(future)
-                
-                # Show and plot forecast
-                st.subheader('Forecast data')
-                st.write(forecast.tail())
-                
-                st.write('Forecast plot for 1 month')
+
+                # 예측 결과 요약
+                last_price = data['Close'].iloc[-1]
+                predicted_price = forecast['yhat'].iloc[-1]
+                change_percent = ((predicted_price - last_price) / last_price) * 100
+
+                st.write(f"### 예측 요약")
+                st.write(f"현재 가격: ${last_price:.2f}")
+                st.write(f"1개월 후 예상 가격: ${predicted_price:.2f}")
+                st.write(f"예상 수익률: {change_percent:.2f}%")
+
+                # 그래프 표시
                 fig1 = plot_plotly(m, forecast)
                 st.plotly_chart(fig1)
-                
+
                 st.write("Forecast components")
                 fig2 = m.plot_components(forecast)
-                st.write(fig2)
+                st.plotly_chart(fig2)
             else:
                 st.error("선택한 회사의 티커를 찾을 수 없습니다.")
     else:
         st.error("종목 리스트를 가져오는 데 실패했습니다.")
-
 
 with tab2:
     st.header("한국 주식")
