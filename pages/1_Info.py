@@ -15,7 +15,7 @@ from prophet.plot import plot_plotly
 from plotly import graph_objs as go
 
 
-START = "2019-01-01"
+START = "2020-01-01"
 TODAY = date.today().strftime("%Y-%m-%d")
 
 # Firebase Admin SDK 초기화 (이미 초기화되어 있는 경우 생략)
