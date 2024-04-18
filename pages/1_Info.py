@@ -52,7 +52,7 @@ def load_data(ticker):
 
 @st.cache
 def load_data_kr(ticker):
-    data = fdr.DataReader(symbol, START, TODAY)
+    data = fdr.DataReader(ticker, START, TODAY)
     data.reset_index(inplace=True)
     return data
 
