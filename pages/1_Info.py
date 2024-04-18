@@ -37,66 +37,58 @@ st.title('Stock Forecast App')
 # 탭 생성
 tab1, tab2, tab3 = st.tabs(["미국 주식", "한국 주식", "Help"])
 
+
 with tab1:
     st.header("미국 주식")
     country = 'US'
-    # 여기에 Magic Formula와 관련된 컨텐츠를 넣습니다.
-
-    # 모든 주식 종목 가져오기
     response = requests.get(f"{BASE_URL}/stocks/{country}")
     if response.status_code == 200:
         stocks = response.json()
-        stocks_list = [[info['company_name']] + [info['recommendation_reason']] + [info['recommendation_date']] + [str('+') + str(info['target_return']) + '%'] + [info['ing']]  # 첫 번째 값을 'company_name'으로 설정
+        stocks_list = [[info['company_name'], info['recommendation_reason'], info['recommendation_date'], '+' + str(info['target_return']) + '%', info['ing']]
                        for symbol, info in stocks.items()]
-        stocks_df = pd.DataFrame(stocks_list, columns=[
-            '회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
-
+        stocks_df = pd.DataFrame(stocks_list, columns=['회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
         st.write("### 상세 정보를 보고 싶은 종목을 선택하세요:")
         symbol_selected = st.selectbox("", stocks_df['회사명'])
 
-    if symbol_selected:
-	    
-        # 회사 이름에 해당하는 티커를 Firebase에서 조회
-        ticker = get_ticker_from_firebase(symbol_selected, country)
-        if ticker:
-	
-        	st.session_state['selected_symbol'] = ticker
-	        data_load_state = st.text('Loading data...')
-	        data = load_data(ticker)
-	        data_load_state.text('Loading data... done!')
-		
-	        st.subheader('Raw data')
-	        st.write(data.tail())
-	        fig = go.Figure()
-		fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
-		fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
-		fig.layout.update(title_text='Time Series data with Rangeslider', xaxis_rangeslider_visible=True)
-		st.plotly_chart(fig)
+        if symbol_selected:
+            ticker = get_ticker_from_firebase(symbol_selected, country)
+            if ticker:
+                st.session_state['selected_symbol'] = ticker
+                data_load_state = st.text('Loading data...')
+                data = load_data(ticker)
+                data_load_state.text('Loading data... done!')
 
-	    # Predict forecast with Prophet.
-		df_train = data[['Date','Close']]
-		df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
-		
-		m = Prophet()
-		m.fit(df_train)
-		future = m.make_future_dataframe(periods=period)
-		forecast = m.predict(future)
-		
-		# Show and plot forecast
-		st.subheader('Forecast data')
-		st.write(forecast.tail())
-		    
-		st.write(f'Forecast plot for 1 months')
-		fig1 = plot_plotly(m, forecast)
-		st.plotly_chart(fig1)
-		
-		st.write("Forecast components")
-		fig2 = m.plot_components(forecast)
-		st.write(fig2)
+                st.subheader('Raw data')
+                st.write(data.tail())
+                
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
+                fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
+                fig.layout.update(title_text='Time Series data with Rangeslider', xaxis_rangeslider_visible=True)
+                st.plotly_chart(fig)
 
-	    
-        else:
-            st.error("선택한 회사의 티커를 찾을 수 없습니다.")
+                # Predict forecast with Prophet.
+                df_train = data[['Date', 'Close']]
+                df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
+                
+                m = Prophet()
+                m.fit(df_train)
+                future = m.make_future_dataframe(periods=20)
+                forecast = m.predict(future)
+                
+                # Show and plot forecast
+                st.subheader('Forecast data')
+                st.write(forecast.tail())
+                
+                st.write('Forecast plot for 1 month')
+                fig1 = plot_plotly(m, forecast)
+                st.plotly_chart(fig1)
+                
+                st.write("Forecast components")
+                fig2 = m.plot_components(forecast)
+                st.write(fig2)
+            else:
+                st.error("선택한 회사의 티커를 찾을 수 없습니다.")
     else:
         st.error("종목 리스트를 가져오는 데 실패했습니다.")
 
@@ -109,53 +101,51 @@ with tab2:
     response = requests.get(f"{BASE_URL}/stocks/{country}")
     if response.status_code == 200:
         stocks = response.json()
-        stocks_list = [[info['company_name']] + [info['recommendation_reason']] + [info['recommendation_date']] + [str('+') + str(info['target_return']) + '%'] + [info['ing']]  # 첫 번째 값을 'company_name'으로 설정
+        stocks_list = [[info['company_name'], info['recommendation_reason'], info['recommendation_date'], '+' + str(info['target_return']) + '%', info['ing']]
                        for symbol, info in stocks.items()]
-        stocks_df = pd.DataFrame(stocks_list, columns=[
-            '회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
-
+        stocks_df = pd.DataFrame(stocks_list, columns=['회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
         st.write("### 상세 정보를 보고 싶은 종목을 선택하세요:")
         symbol_selected = st.selectbox("", stocks_df['회사명'])
 
-    if symbol_selected:
-        # 회사 이름에 해당하는 티커를 Firebase에서 조회
-        ticker = get_ticker_from_firebase(symbol_selected, country)
-        if ticker:
+        if symbol_selected:
+            ticker = get_ticker_from_firebase(symbol_selected, country)
+            if ticker:
                 st.session_state['selected_symbol'] = ticker
-                show_stock_details(country, ticker, symbol_selected)
+                data_load_state = st.text('Loading data...')
+                data = load_data(ticker)
+                data_load_state.text('Loading data... done!')
 
-	        data_load_state = st.text('Loading data...')
-	        data = load_data(selected_stock)
-	        data_load_state.text('Loading data... done!')
-		
-	        st.subheader('Raw data')
-	        st.write(data.tail())
-	        plot_raw_data()
+                st.subheader('Raw data')
+                st.write(data.tail())
+                
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
+                fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
+                fig.layout.update(title_text='Time Series data with Rangeslider', xaxis_rangeslider_visible=True)
+                st.plotly_chart(fig)
 
-	    # Predict forecast with Prophet.
-		df_train = data[['Date','Close']]
-		df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
-		
-		m = Prophet()
-		m.fit(df_train)
-		future = m.make_future_dataframe(periods=period)
-		forecast = m.predict(future)
-		
-		# Show and plot forecast
-		st.subheader('Forecast data')
-		st.write(forecast.tail())
-		    
-		st.write(f'Forecast plot for 1 months')
-		fig1 = plot_plotly(m, forecast)
-		st.plotly_chart(fig1)
-		
-		st.write("Forecast components")
-		fig2 = m.plot_components(forecast)
-		st.write(fig2)
-
-	    
-        else:
-            st.error("선택한 회사의 티커를 찾을 수 없습니다.")
+                # Predict forecast with Prophet.
+                df_train = data[['Date', 'Close']]
+                df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
+                
+                m = Prophet()
+                m.fit(df_train)
+                future = m.make_future_dataframe(periods=20)
+                forecast = m.predict(future)
+                
+                # Show and plot forecast
+                st.subheader('Forecast data')
+                st.write(forecast.tail())
+                
+                st.write('Forecast plot for 1 month')
+                fig1 = plot_plotly(m, forecast)
+                st.plotly_chart(fig1)
+                
+                st.write("Forecast components")
+                fig2 = m.plot_components(forecast)
+                st.write(fig2)
+            else:
+                st.error("선택한 회사의 티커를 찾을 수 없습니다.")
     else:
         st.error("종목 리스트를 가져오는 데 실패했습니다.")
 
