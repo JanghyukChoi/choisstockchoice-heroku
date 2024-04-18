@@ -81,7 +81,7 @@ with tab1:
             ticker = get_ticker_from_firebase(symbol_selected, country)
             if ticker:
                 st.session_state['selected_symbol'] = ticker
-                data_load_state = st.text('Loading data...')
+
                 data = load_data(ticker)
 
                 
@@ -143,12 +143,7 @@ with tab2:
             ticker = get_ticker_from_firebase(symbol_selected, country)
             if ticker:
                 st.session_state['selected_symbol'] = ticker
-                data_load_state = st.text('Loading data...')
-                data = load_data_kr(ticker)
-                data_load_state.text('Loading data... done!')
-                st.subheader('Raw data')
-                st.write(data.tail())
-                
+           
                 fig = go.Figure()
                 fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
                 fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
