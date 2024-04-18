@@ -83,9 +83,7 @@ with tab1:
                 st.session_state['selected_symbol'] = ticker
                 data_load_state = st.text('Loading data...')
                 data = load_data(ticker)
-                data_load_state.text('Loading data... done!')
-                st.subheader('Raw data')
-                st.write(data.tail())
+
                 
                 fig = go.Figure()
                 fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
