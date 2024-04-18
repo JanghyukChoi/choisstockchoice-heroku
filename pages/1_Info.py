@@ -11,6 +11,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 import yfinance as yf
 from prophet import Prophet
+import FinanceDataReader as fdr
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go
 
