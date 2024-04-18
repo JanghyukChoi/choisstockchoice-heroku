@@ -143,6 +143,8 @@ with tab2:
             ticker = get_ticker_from_firebase(symbol_selected, country)
             if ticker:
                 st.session_state['selected_symbol'] = ticker
+
+                data = load_data_kr(ticker)
            
                 fig = go.Figure()
                 fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
