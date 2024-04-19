@@ -218,8 +218,8 @@ with tab2:
                 # m.fit(df_train)
                 
                 m = Prophet(
-                    changepoint_prior_scale=0.05, # 변경점 감도 조정
-                    # seasonality_mode='multiplicative' # 계절성을 곱적으로 설정
+                    changepoint_prior_scale=0.01, # 변경점 감도 조정
+                    seasonality_mode='multiplicative' # 계절성을 곱적으로 설정
                 )
                 
                 # 데이터셋의 'y' 컬럼에 대한 99% 분위수 계산
