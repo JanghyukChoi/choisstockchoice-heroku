@@ -14,6 +14,7 @@ from prophet import Prophet
 import FinanceDataReader as fdr
 from prophet.plot import plot_plotly
 from plotly import graph_objs as go
+import numpy as np
 
 
 START = "2020-01-01"
