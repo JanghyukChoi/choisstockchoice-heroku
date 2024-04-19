@@ -137,6 +137,12 @@ with tab1:
                 ax.set_xlabel('Date')
                 ax.set_ylabel('Price')
                 ax.set_title('Stock Prices: Open vs Close')
+
+                # 날짜 레이블의 기울기 조정
+                ax.xaxis.set_major_locator(mdates.WeekdayLocator(interval=1))  # 매주 레이블 표시
+                ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))  # 날짜 형식 설정
+                plt.setp(ax.xaxis.get_majorticklabels(), rotation=45)  # 레이블을 45도로 기울임
+
                 
                 # Streamlit을 통해 그래프 표시
                 st.pyplot(fig)
@@ -254,10 +260,22 @@ with tab2:
 
                 st.write("")
                 st.subheader('Actual data')
-                fig = go.Figure()
-                fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
-                fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
-                fig.layout.update(xaxis_rangeslider_visible=True)
+                
+                # 그래프 그리기
+                fig, ax = plt.subplots()
+                ax.plot(data['Date'], data['Open'], label='Stock Open')
+                ax.plot(data['Date'], data['Close'], label='Stock Close')
+                ax.legend()
+                ax.set_xlabel('Date')
+                ax.set_ylabel('Price')
+                ax.set_title('Stock Prices: Open vs Close')
+
+                # 날짜 레이블의 기울기 조정
+                ax.xaxis.set_major_locator(mdates.WeekdayLocator(interval=1))  # 매주 레이블 표시
+                ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))  # 날짜 형식 설정
+                plt.setp(ax.xaxis.get_majorticklabels(), rotation=45)  # 레이블을 45도로 기울임
+
+                
                 st.plotly_chart(fig)
                 
                 # Show and plot forecast
