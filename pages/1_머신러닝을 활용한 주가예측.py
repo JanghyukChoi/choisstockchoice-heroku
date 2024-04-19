@@ -217,30 +217,12 @@ with tab2:
                 # m = Prophet()
                 # m.fit(df_train)
                 
-                m = Prophet(
-                    changepoint_prior_scale=0.05, # 변경점 감도 조정
-                    yearly_seasonality=False, # 연간 계절성 활성화
-                    weekly_seasonality=True, # 주간 계절성 활성화
-                    daily_seasonality=True, # 일간 계절성 비활성화, 데이터에 필요하지 않은 경우
-                )
-                
-                # 이상치 제거
-# 데이터셋의 'y' 컬럼에 대한 99% 분위수 계산
-                threshold_upper = df_train['y'].quantile(0.99)
-                
-                # 데이터셋의 'y' 컬럼에 대한 1% 분위수 계산
-                threshold_lower = df_train['y'].quantile(0.01)
-                
-                # 이상치를 None으로 설정하여 Prophet 모델에서 제외
-                df_train.loc[df_train['y'] > threshold_upper, 'y'] = None
-                df_train.loc[df_train['y'] < threshold_lower, 'y'] = None
-                
-                                
-                # 모델에 학습 데이터 피팅
+                # 모델 초기화 with a larger changepoint_prior_scale
+                m = Prophet(changepoint_prior_scale=0.05)
                 m.fit(df_train)
-                                
                 future = m.make_future_dataframe(periods=20)
                 forecast = m.predict(future)
+                                
 
                                 # 예측 결과 요약
                 last_price = data['Close'].iloc[-1]
