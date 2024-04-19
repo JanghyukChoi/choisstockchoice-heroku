@@ -218,7 +218,7 @@ with tab2:
                 # m.fit(df_train)
                 
                 # 모델 초기화 with a larger changepoint_prior_scale
-                m = Prophet(changepoint_prior_scale=0.5)
+                m = Prophet(changepoint_prior_scale=0.1)
                 m.fit(df_train)
                 future = m.make_future_dataframe(periods=20)
                 forecast = m.predict(future)
