@@ -114,6 +114,13 @@ with tab1:
                 else:
                     st.markdown(f'<span style="color:red; font-weight:bold;">예상 수익률: {change_percent:.2f}%</span>', unsafe_allow_html=True)
 
+                st.markdown(
+                    """
+                    <div style='background-color: white; height: 2px; margin: 30px 0;'></div>
+                    """,
+                    unsafe_allow_html=True
+                )
+
 
 
                 st.write("")
@@ -121,7 +128,7 @@ with tab1:
                 fig = go.Figure()
                 fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
                 fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
-                fig.layout.update(title_text='Time Series data with Rangeslider', xaxis_rangeslider_visible=True)
+                fig.layout.update( xaxis_rangeslider_visible=True)
                 st.plotly_chart(fig)
                 
                 # Show and plot forecast
@@ -183,7 +190,7 @@ with tab2:
             if ticker:
                 st.session_state['selected_symbol'] = ticker
 
-                data = load_data(ticker)
+                data = load_data_kr(ticker)
 
                 # Predict forecast with Prophet.
                 df_train = data[['Date', 'Close']]
@@ -207,6 +214,12 @@ with tab2:
                 else:
                     st.markdown(f'<span style="color:red; font-weight:bold;">예상 수익률: {change_percent:.2f}%</span>', unsafe_allow_html=True)
 
+                st.markdown(
+                    """
+                    <div style='background-color: white; height: 2px; margin: 30px 0;'></div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
 
                 st.write("")
@@ -214,7 +227,7 @@ with tab2:
                 fig = go.Figure()
                 fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
                 fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
-                fig.layout.update(title_text='Time Series data with Rangeslider', xaxis_rangeslider_visible=True)
+                fig.layout.update(xaxis_rangeslider_visible=True)
                 st.plotly_chart(fig)
                 
                 # Show and plot forecast
