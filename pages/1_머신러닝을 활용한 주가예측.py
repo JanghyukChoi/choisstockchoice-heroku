@@ -122,10 +122,22 @@ with tab1:
                 st.write(forecast.tail())
                 
                 st.write('Forecast plot for 1 month')
-                # fig1 = plot_plotly(m, forecast)
-                # st.plotly_chart(fig1)
-                fig1 = m.plot(forecast)
-                st.write(fig1)
+
+                # fig1 = m.plot(forecast)
+                # st.write(fig1)
+
+                fig, ax = plt.subplots()
+                m.plot(forecast, ax=ax)
+                
+                # 과거 6개월 및 앞으로 1개월 데이터 범위 계산
+                last_date = forecast['ds'].max()
+                start_date = last_date - pd.DateOffset(months=6)
+                
+                # x축 범위 설정
+                ax.set_xlim([start_date, last_date])
+                
+                # Streamlit에 그래프 표시
+                st.pyplot(fig)
                 
                 st.write("Forecast components")
                 fig2 = m.plot_components(forecast)
