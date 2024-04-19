@@ -219,9 +219,9 @@ with tab2:
                 
                 m = Prophet(
                     changepoint_prior_scale=0.05, # 변경점 감도 조정
-                    yearly_seasonality=True, # 연간 계절성 활성화
+                    yearly_seasonality=False, # 연간 계절성 활성화
                     weekly_seasonality=True, # 주간 계절성 활성화
-                    daily_seasonality=False, # 일간 계절성 비활성화, 데이터에 필요하지 않은 경우
+                    daily_seasonality=True, # 일간 계절성 비활성화, 데이터에 필요하지 않은 경우
                 )
                 
                 # 이상치 제거
