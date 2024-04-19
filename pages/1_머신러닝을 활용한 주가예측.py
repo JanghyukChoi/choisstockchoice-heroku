@@ -3,6 +3,7 @@ from datetime import date
 import streamlit as st
 import requests
 import yfinance as yf
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 from datetime import datetime
 import pandas as pd
