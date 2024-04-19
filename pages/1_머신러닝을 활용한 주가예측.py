@@ -193,7 +193,7 @@ with tab2:
                 
                 st.write('Forecast plot for 1 month')
                 fig1 = plot_plotly(m, forecast)
-                st.plotly_chart(fig1)
+                st.write(fig1)
                 
                 st.write("Forecast components")
                 fig2 = m.plot_components(forecast)
