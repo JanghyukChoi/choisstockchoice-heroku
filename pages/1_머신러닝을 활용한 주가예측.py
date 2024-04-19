@@ -196,8 +196,24 @@ with tab2:
                 df_train = data[['Date', 'Close']]
                 df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
                 
-                m = Prophet()
+                # m = Prophet()
+                # m.fit(df_train)
+                
+                m = Prophet(
+                    changepoint_prior_scale=0.05, # 변경점 감도 조정
+                    yearly_seasonality=True, # 연간 계절성 활성화
+                    weekly_seasonality=True, # 주간 계절성 활성화
+                    daily_seasonality=False, # 일간 계절성 비활성화, 데이터에 필요하지 않은 경우
+                    seasonality_mode='multiplicative' # 계절성을 곱적으로 설정
+                )
+                
+                # 이상치 제거
+                df_train['y'] = np.where(df_train['y'] > threshold_upper, None, df_train['y'])
+                df_train['y'] = np.where(df_train['y'] < threshold_lower, None, df_train['y'])
+                
+                # 모델에 학습 데이터 피팅
                 m.fit(df_train)
+                
                 future = m.make_future_dataframe(periods=20)
                 forecast = m.predict(future)
 
