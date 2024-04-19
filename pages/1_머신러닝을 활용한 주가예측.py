@@ -125,12 +125,21 @@ with tab1:
 
 
                 st.write("")
+
+                                # 서브헤더 추가
                 st.subheader('Actual data')
-                fig = go.Figure()
-                fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
-                fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
-                fig.layout.update( xaxis_rangeslider_visible=True)
-                st.plotly_chart(fig)
+                
+                # 그래프 그리기
+                fig, ax = plt.subplots()
+                ax.plot(data['Date'], data['Open'], label='Stock Open')
+                ax.plot(data['Date'], data['Close'], label='Stock Close')
+                ax.legend()
+                ax.set_xlabel('Date')
+                ax.set_ylabel('Price')
+                ax.set_title('Stock Prices: Open vs Close')
+                
+                # Streamlit을 통해 그래프 표시
+                st.pyplot(fig)
                 
                 # Show and plot forecast
                 st.subheader('Forecast data')
