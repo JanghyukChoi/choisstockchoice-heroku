@@ -208,10 +208,17 @@ with tab2:
                     seasonality_mode='multiplicative' # 계절성을 곱적으로 설정
                 )
                 
-                # 이상치 제거
-                df_train['y'] = np.where(df_train['y'] > threshold_upper, None, df_train['y'])
-                df_train['y'] = np.where(df_train['y'] < threshold_lower, None, df_train['y'])
+                # 데이터셋의 'y' 컬럼에 대한 99% 분위수 계산
+                threshold_upper = df_train['y'].quantile(0.99)
                 
+                # 데이터셋의 'y' 컬럼에 대한 1% 분위수 계산
+                threshold_lower = df_train['y'].quantile(0.01)
+                
+                # 이상치를 None으로 설정하여 Prophet 모델에서 제외
+                df_train.loc[df_train['y'] > threshold_upper, 'y'] = None
+                df_train.loc[df_train['y'] < threshold_lower, 'y'] = None
+                
+                                
                 # 모델에 학습 데이터 피팅
                 m.fit(df_train)
                 
