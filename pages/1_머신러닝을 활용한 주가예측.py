@@ -98,7 +98,8 @@ with tab1:
                 df_train = data[['Date', 'Close']]
                 df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
                 
-                m = Prophet()
+                # 모델 초기화 with a larger changepoint_prior_scale
+                m = Prophet(changepoint_prior_scale=0.05)
                 m.fit(df_train)
                 future = m.make_future_dataframe(periods=20)
                 forecast = m.predict(future)
