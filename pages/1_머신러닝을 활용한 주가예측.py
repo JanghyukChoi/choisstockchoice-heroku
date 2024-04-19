@@ -92,12 +92,6 @@ with tab1:
 
                 data = load_data(ticker)
 
-                
-                fig = go.Figure()
-                fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
-                fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
-                fig.layout.update(title_text='Time Series data with Rangeslider', xaxis_rangeslider_visible=True)
-                st.plotly_chart(fig)
                 # Predict forecast with Prophet.
                 df_train = data[['Date', 'Close']]
                 df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
@@ -115,11 +109,24 @@ with tab1:
                 st.write(f"### 예측 요약")
                 st.write(f"현재 가격: ${last_price:.2f}")
                 st.write(f"1개월 후 예상 가격: ${predicted_price:.2f}")
-                st.write(f"예상 수익률: {change_percent:.2f}%")
+                if change_percent > 0:
+                    st.markdown(f'<span style="color:green; font-weight:bold;">예상 수익률: {change_percent:.2f}%</span>', unsafe_allow_html=True)
+                else:
+                    st.markdown(f'<span style="color:red; font-weight:bold;">예상 수익률: {change_percent:.2f}%</span>', unsafe_allow_html=True)
+
+
+
+                st.write("")
+                st.subheader('Actual data')
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
+                fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
+                fig.layout.update(title_text='Time Series data with Rangeslider', xaxis_rangeslider_visible=True)
+                st.plotly_chart(fig)
                 
                 # Show and plot forecast
                 st.subheader('Forecast data')
-                st.write(forecast.tail())
+                st.write(forecast.tail(10))
                 
                 st.write('Forecast plot for 1 month')
 
@@ -172,16 +179,11 @@ with tab2:
         st.write("")
         if symbol_selected:
             ticker = get_ticker_from_firebase(symbol_selected, country)
-            if ticker:
+ if ticker:
                 st.session_state['selected_symbol'] = ticker
 
-                data = load_data_kr(ticker)
-           
-                fig = go.Figure()
-                fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
-                fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
-                fig.layout.update(title_text='Time Series data with Rangeslider', xaxis_rangeslider_visible=True)
-                st.plotly_chart(fig)
+                data = load_data(ticker)
+
                 # Predict forecast with Prophet.
                 df_train = data[['Date', 'Close']]
                 df_train = df_train.rename(columns={"Date": "ds", "Close": "y"})
@@ -199,15 +201,42 @@ with tab2:
                 st.write(f"### 예측 요약")
                 st.write(f"현재 가격: ${last_price:.2f}")
                 st.write(f"1개월 후 예상 가격: ${predicted_price:.2f}")
-                st.write(f"예상 수익률: {change_percent:.2f}%")
+                if change_percent > 0:
+                    st.markdown(f'<span style="color:green; font-weight:bold;">예상 수익률: {change_percent:.2f}%</span>', unsafe_allow_html=True)
+                else:
+                    st.markdown(f'<span style="color:red; font-weight:bold;">예상 수익률: {change_percent:.2f}%</span>', unsafe_allow_html=True)
+
+
+
+                st.write("")
+                st.subheader('Actual data')
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(x=data['Date'], y=data['Open'], name="stock_open"))
+                fig.add_trace(go.Scatter(x=data['Date'], y=data['Close'], name="stock_close"))
+                fig.layout.update(title_text='Time Series data with Rangeslider', xaxis_rangeslider_visible=True)
+                st.plotly_chart(fig)
                 
                 # Show and plot forecast
                 st.subheader('Forecast data')
-                st.write(forecast.tail())
+                st.write(forecast.tail(10))
                 
                 st.write('Forecast plot for 1 month')
-                fig1 = plot_plotly(m, forecast)
-                st.write(fig1)
+
+                # fig1 = m.plot(forecast)
+                # st.write(fig1)
+
+                fig, ax = plt.subplots()
+                m.plot(forecast, ax=ax)
+                
+                # 과거 6개월 및 앞으로 1개월 데이터 범위 계산
+                last_date = forecast['ds'].max()
+                start_date = last_date - pd.DateOffset(months=6)
+                
+                # x축 범위 설정
+                ax.set_xlim([start_date, last_date])
+                
+                # Streamlit에 그래프 표시
+                st.pyplot(fig)
                 
                 st.write("Forecast components")
                 fig2 = m.plot_components(forecast)
