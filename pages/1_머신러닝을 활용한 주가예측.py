@@ -179,7 +179,8 @@ with tab2:
         st.write("")
         if symbol_selected:
             ticker = get_ticker_from_firebase(symbol_selected, country)
- if ticker:
+            
+            if ticker:
                 st.session_state['selected_symbol'] = ticker
 
                 data = load_data(ticker)
