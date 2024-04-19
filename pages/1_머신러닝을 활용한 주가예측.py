@@ -218,7 +218,7 @@ with tab2:
                 # m.fit(df_train)
                 
                 m = Prophet(
-                    changepoint_prior_scale=0.01, # 변경점 감도 조정
+                    changepoint_prior_scale=0.05, # 변경점 감도 조정
                     seasonality_mode='multiplicative' # 계절성을 곱적으로 설정
                 )
                 
@@ -278,7 +278,7 @@ with tab2:
                 plt.setp(ax.xaxis.get_majorticklabels(), rotation=45)  # 레이블을 45도로 기울임
 
                 
-                st.plotly_chart(fig)
+                st.pyplot(fig)
                 
                 # Show and plot forecast
                 st.subheader('Forecast data')
