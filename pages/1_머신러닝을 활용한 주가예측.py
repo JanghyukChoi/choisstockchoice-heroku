@@ -222,7 +222,6 @@ with tab2:
                     yearly_seasonality=True, # 연간 계절성 활성화
                     weekly_seasonality=True, # 주간 계절성 활성화
                     daily_seasonality=False, # 일간 계절성 비활성화, 데이터에 필요하지 않은 경우
-                    seasonality_mode='multiplicative' # 계절성을 곱적으로 설정
                 )
                 
                 # 이상치 제거
