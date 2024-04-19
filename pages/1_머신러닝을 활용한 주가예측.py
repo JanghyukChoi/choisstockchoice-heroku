@@ -140,8 +140,8 @@ with tab1:
                 ax.set_title('Stock Prices: Open vs Close')
 
                 # 날짜 레이블의 기울기 조정
-                ax.xaxis.set_major_locator(mdates.WeekdayLocator(interval=1))  # 매주 레이블 표시
-                ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))  # 날짜 형식 설정
+                ax.xaxis.set_major_locator(mdates.MonthLocator(interval=3))  # 6개월 간격으로 레이블 표시
+                ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))  # 년-월 형식으로 날짜 포맷 설정
                 plt.setp(ax.xaxis.get_majorticklabels(), rotation=45)  # 레이블을 45도로 기울임
 
                 
@@ -270,10 +270,10 @@ with tab2:
                 ax.set_xlabel('Date')
                 ax.set_ylabel('Price')
                 ax.set_title('Stock Prices: Open vs Close')
-
+                
                 # 날짜 레이블의 기울기 조정
-                ax.xaxis.set_major_locator(mdates.WeekdayLocator(interval=1))  # 매주 레이블 표시
-                ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))  # 날짜 형식 설정
+                ax.xaxis.set_major_locator(mdates.MonthLocator(interval=3))  # 6개월 간격으로 레이블 표시
+                ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m'))  # 년-월 형식으로 날짜 포맷 설정
                 plt.setp(ax.xaxis.get_majorticklabels(), rotation=45)  # 레이블을 45도로 기울임
 
                 
