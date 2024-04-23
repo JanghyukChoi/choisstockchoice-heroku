@@ -110,7 +110,7 @@ def show_stock_details(country, symbol, name):
                 st.session_state['page'] = page_name
                 st.experimental_rerun()
 
-            if st.button('Go to Stock Prediction using Machine Learning'):
+            if st.button('Go to Stock Prediction using Machine Learning' , key='1234567890'):
                 go_to_page('1_머신러닝을 활용한 주가예측')
 
 
