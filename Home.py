@@ -105,6 +105,16 @@ def show_stock_details(country, symbol, name):
             # st.write(f"**알파 :** {round((stock_info['financial_metrics']['Alpha']), 3)}")
             # st.write(f"**트레이너 비율 :** {round((stock_info['financial_metrics']['Treynor Ratio']), 3)}") 
 
+            # 버튼이 눌렸을 때 실행될 페이지로 리다이렉트
+            def go_to_page(page_name):
+                st.session_state['page'] = page_name
+                st.experimental_rerun()
+
+            if st.button('Go to Stock Prediction using Machine Learning'):
+                go_to_page('1_머신러닝을 활용한 주가예측')
+
+
+
 
             
             metric_keys = ['Sharpe Ratio', 'Maximum Drawdown', 'Beta', 'Alpha', 'Treynor Ratio']
