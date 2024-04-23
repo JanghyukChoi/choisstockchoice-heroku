@@ -242,7 +242,7 @@ header_css = """
     }
     .header-subtitle {
         font-size: 24px;
-        color: black;
+        color: green;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -263,7 +263,7 @@ header_css = """
 # ...
 
 st.set_page_config(page_title="주식 추천 사이트",
-                   page_icon=":chart_with_upwards_trend:")
+                   page_icon=":chart_with_upwards_trend:", layout="wide")
 
 # Insert the custom header at the very top of the page
 st.markdown(header_css, unsafe_allow_html=True)
