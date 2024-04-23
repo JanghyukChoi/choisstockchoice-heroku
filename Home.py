@@ -109,10 +109,15 @@ def show_stock_details(country, symbol, name):
             def go_to_page(page_name):
                 st.session_state['page'] = page_name
                 st.experimental_rerun()
-
-            if st.button('Go to Stock Prediction using Machine Learning' , key='1234567890'):
-                go_to_page('1_머신러닝을 활용한 주가예측')
-
+            
+            if st.session_state['page'] == 'Home':
+                # ... 홈 페이지의 코드 ...
+                if st.button('Go to Stock Prediction using Machine Learning', key='stock_prediction_button'):
+                    go_to_page('1_머신러닝을 활용한 주가예측')
+            
+            elif st.session_state['page'] == '1_머신러닝을 활용한 주가예측':
+                # pages 폴더 내의 파일 실행
+                exec(open('pages/1_머신러닝을 활용한 주가예측.py').read(), globals())
 
 
 
