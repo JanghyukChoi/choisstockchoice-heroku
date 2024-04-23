@@ -371,8 +371,13 @@ with tab1:
         else:
             filtered_df = stocks_df[stocks_df['진행 여부'] == status_option]
 
-        # Apply the highlight function to the DataFrame and display it
-        st.dataframe(filtered_df.style.apply(highlight_status, axis=1))
+        # 데이터프레임을 스타일링하고 너비를 조정하며 인덱스를 숨깁니다.
+        st.dataframe(
+            filtered_df.style.apply(highlight_status, axis=1),
+            width=700,  # 원하는 너비로 조정하세요
+            height=300  # 원하는 높이로 조정하세요
+        )
+        st.write(filtered_df.to_html(index=False), unsafe_allow_html=True)  # 인덱스 없이 HTML로 변환하여 표시
          #===============================
         st.markdown(
             """
