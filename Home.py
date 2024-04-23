@@ -57,6 +57,12 @@ def show_stock_details(country, symbol, name):
             # 파일의 공개 URL 생성 (영구적인 공개 URL)
             blob.make_public()
             st.image(blob.public_url , caption='차트 분석 이미지')
+            st.write("")
+            st.write(f"**샤프 지수 :** {round((stock_info['Sharpe Ratio']), 2)}") 
+            st.write(f"**최대 손실폭 :** {round((stock_info['Maximum Drawdown']), 2)}")  
+            st.write(f"**베타값 :** {round((stock_info['Beta']), 2)}")  
+            st.wrtie(f"**알파 :** {round((stock_info['Alpha']), 2)}")
+            st.write(f"**트레이너 비율 :** {round((stock_info['Treynor Ratio']), 2)}") 
             st.markdown(f"**추천 이유:**<br> <br> {stock_info['recommendation_reason']}", unsafe_allow_html=True)
             # Parse the dates from string to datetime objects
             dates = pd.to_datetime(list(stock_info['price'].keys()))
