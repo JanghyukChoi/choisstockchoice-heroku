@@ -381,7 +381,8 @@ with tab1:
         st.dataframe(
             filtered_df.style.apply(highlight_status, axis=1),
             width=700,  # 원하는 너비로 조정하세요
-            height=300  # 원하는 높이로 조정하세요
+            height=300,  # 원하는 높이로 조정하세요
+            index=False  # 인덱스를 숨깁니다
         )
         # st.write(filtered_df.to_html(index=False), unsafe_allow_html=True)  # 인덱스 없이 HTML로 변환하여 표시
         
