@@ -383,7 +383,7 @@ with tab1:
             width=700,  # 원하는 너비로 조정하세요
             height=300  # 원하는 높이로 조정하세요
         )
-        st.write(filtered_df.to_html(index=False), unsafe_allow_html=True)  # 인덱스 없이 HTML로 변환하여 표시
+        # st.write(filtered_df.to_html(index=False), unsafe_allow_html=True)  # 인덱스 없이 HTML로 변환하여 표시
         
         st.markdown(
             """
