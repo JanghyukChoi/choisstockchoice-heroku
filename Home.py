@@ -225,13 +225,49 @@ if 'selected_symbol' not in st.session_state:
 
 
 
-# Streamlit 앱의 기본 설정
+
+#==========================================
+header_css = """
+<style>
+    .header-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .header-title {
+        font-size: 48px;
+        color: #E0004D; /* Adjust the color to match the design */
+        font-weight: bold;
+        margin-bottom: 0;
+    }
+    .header-subtitle {
+        font-size: 24px;
+        color: black;
+        border-top: 3px solid black; /* Adjust the thickness to match the design */
+        display: inline-block;
+        padding-top: 5px;
+        margin-top: 0;
+    }
+</style>
+"""
+
+# Streamlit app main code
+# ...
+
 st.set_page_config(page_title="주식 추천 사이트",
-                   page_icon=":chart_with_upwards_trend:",layout="wide")
+                   page_icon=":chart_with_upwards_trend:", layout="wide")
 
-
-
-st.title("Choi's Stock Choice Website")
+# Insert the custom header at the very top of the page
+st.markdown(header_css, unsafe_allow_html=True)
+st.markdown(
+    """
+    <div class="header-container">
+        <h1 class="header-title">CHOI'S STOCK CHOICE</h1>
+        <p class="header-subtitle">US & KR MARKET</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+#==========================================
 
 # 나스닥, S&P 500, 다우존스 정보 가져오기
 indices_info = [
