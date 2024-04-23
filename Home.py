@@ -12,6 +12,16 @@ from firebase_admin import firestore, storage
 import os
 import json
 
+# 데이터프레임에 스타일을 적용하는 함수
+def highlight_status(row):
+    if row['진행 여부'] == '성공':
+        return ['background-color: green']*len(row)
+    elif row['진행 여부'] == '실패':
+        return ['background-color: red']*len(row)
+    else:
+        return ['background-color: none']*len(row)
+
+
 custom_css = """
 <style>
     .metric-container {
@@ -336,24 +346,34 @@ with tab1:
 
     # 모든 주식 종목 가져오기
     response = requests.get(f"{BASE_URL}/stocks/{country}")
+    #===============================
     if response.status_code == 200:
         stocks = response.json()
-        stocks_list = [[info['company_name']] + [info['recommendation_reason']] + [info['recommendation_date']] + [str('+') + str(info['target_return']) + '%'] + [info['ing']]  # 첫 번째 값을 'company_name'으로 설정
-                       for symbol, info in stocks.items()]
-        stocks_df = pd.DataFrame(stocks_list, columns=[
-            '회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
-
+        stocks_list = [
+            [
+                info['company_name'],
+                info['recommendation_reason'],
+                info['recommendation_date'],
+                f"{info['target_return']}%",
+                info['ing']
+            ]
+            for symbol, info in stocks.items()
+        ]
+        stocks_df = pd.DataFrame(
+            stocks_list,
+            columns=['회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부']
+        )
         stocks_df['추천 이유'] = stocks_df['추천 이유'].apply(
-            lambda x: x if len(x) <= 35 else x[:35] + '...')
-
-        # 필터링된 데이터 표시 (수정)
+            lambda x: x if len(x) <= 35 else x[:35] + '...'
+        )
         if status_option == "전체":
             filtered_df = stocks_df
         else:
             filtered_df = stocks_df[stocks_df['진행 여부'] == status_option]
 
-        st.table(filtered_df)  # 수정: stocks_df -> filtered_df
-
+        # Apply the highlight function to the DataFrame and display it
+        st.dataframe(filtered_df.style.apply(highlight_status, axis=1))
+         #===============================
         st.markdown(
             """
         <div style='background-color: white; height: 2px; margin: 30px 0;'></div>
