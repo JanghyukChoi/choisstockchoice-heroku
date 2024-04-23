@@ -105,6 +105,11 @@ def show_stock_details(country, symbol, name):
             # st.write(f"**알파 :** {round((stock_info['financial_metrics']['Alpha']), 3)}")
             # st.write(f"**트레이너 비율 :** {round((stock_info['financial_metrics']['Treynor Ratio']), 3)}") 
 
+
+            # Streamlit 앱의 시작 부분에서 'page' 키를 초기화
+            if 'page' not in st.session_state:
+                st.session_state['page'] = 'Home'
+
             # 버튼이 눌렸을 때 실행될 페이지로 리다이렉트
             def go_to_page(page_name):
                 st.session_state['page'] = page_name
