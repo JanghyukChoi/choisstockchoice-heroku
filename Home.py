@@ -252,8 +252,8 @@ header_css = """
     .header-subtitle:after {
         content: '';
         flex: 1;
-        border-bottom: 3px solid black;
-        margin: 0px 10px; /* Adjust the spacing around the lines */
+        border-bottom: 3px solid green;
+        margin: 0px 5px; /* Adjust the spacing around the lines */
     }
 </style>
 """
