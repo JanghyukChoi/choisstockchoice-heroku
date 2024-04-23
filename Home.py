@@ -99,30 +99,25 @@ def show_stock_details(country, symbol, name):
             blob.make_public()
             st.image(blob.public_url , caption='차트 분석 이미지')
             st.write("")
-            # st.write(f"**샤프 지수 :** {round((stock_info['financial_metrics']['Sharpe Ratio']), 3)}") 
-            # st.write(f"**최대 손실폭 :** {round((stock_info['financial_metrics']['Maximum Drawdown']), 3)}")  
-            # st.write(f"**베타값 :** {round((stock_info['financial_metrics']['Beta']), 3)}")  
-            # st.write(f"**알파 :** {round((stock_info['financial_metrics']['Alpha']), 3)}")
-            # st.write(f"**트레이너 비율 :** {round((stock_info['financial_metrics']['Treynor Ratio']), 3)}") 
 
 
-            # Streamlit 앱의 시작 부분에서 'page' 키를 초기화
-            if 'page' not in st.session_state:
-                st.session_state['page'] = 'Home'
+            # # Streamlit 앱의 시작 부분에서 'page' 키를 초기화
+            # if 'page' not in st.session_state:
+            #     st.session_state['page'] = 'Home'
 
-            # 버튼이 눌렸을 때 실행될 페이지로 리다이렉트
-            def go_to_page(page_name):
-                st.session_state['page'] = page_name
-                st.experimental_rerun()
+            # # 버튼이 눌렸을 때 실행될 페이지로 리다이렉트
+            # def go_to_page(page_name):
+            #     st.session_state['page'] = page_name
+            #     st.experimental_rerun()
             
-            if st.session_state['page'] == 'Home':
-                # ... 홈 페이지의 코드 ...
-                if st.button('Go to Stock Prediction using Machine Learning', key='stock_prediction_button'):
-                    go_to_page('1_머신러닝을 활용한 주가예측')
+            # if st.session_state['page'] == 'Home':
+            #     # ... 홈 페이지의 코드 ...
+            #     if st.button('Go to Stock Prediction using Machine Learning', key='stock_prediction_button'):
+            #         go_to_page('1_머신러닝을 활용한 주가예측')
             
-            elif st.session_state['page'] == '1_머신러닝을 활용한 주가예측':
-                # pages 폴더 내의 파일 실행
-                exec(open('pages/1_머신러닝을 활용한 주가예측.py').read(), globals())
+            # elif st.session_state['page'] == '1_머신러닝을 활용한 주가예측':
+            #     # pages 폴더 내의 파일 실행
+            #     exec(open('pages/1_머신러닝을 활용한 주가예측.py').read(), globals())
 
 
 
