@@ -311,7 +311,7 @@ success_rate, total_success, total_failure, ing = calculate_success_rate()
 #---------------------------------------------
 
 # 성과 통계 제목
-st.write("### Performance Statistics 📊 ")
+st.write("### 평가 정확도 📊 ")
 
 # 성과 통계를 나란히 표시하기 위한 컬럼 설정
 cols = st.columns(4)
@@ -338,7 +338,7 @@ st.markdown(
 st.write("")
 
 # 제목
-st.write("### Watchlist 👀")
+st.write("### 선정 종목 👀")
 
 
 # 탭 생성
@@ -417,24 +417,42 @@ with tab2:
 
     # 모든 주식 종목 가져오기
     response = requests.get(f"{BASE_URL}/stocks/{country}")
+    #===============================
     if response.status_code == 200:
         stocks = response.json()
-        stocks_list = [[info['company_name']] + [info['recommendation_reason']] + [info['recommendation_date']] + [str('+') + str(info['target_return']) + '%'] + [info['ing']]  # 첫 번째 값을 'company_name'으로 설정
-                       for symbol, info in stocks.items()]
-        stocks_df = pd.DataFrame(stocks_list, columns=[
-            '회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부'])
-
+        stocks_list = [
+            [
+                info['company_name'],
+                info['recommendation_reason'],
+                info['recommendation_date'],
+                f"{info['target_return']}%",
+                info['ing']
+            ]
+            for symbol, info in stocks.items()
+        ]
+        stocks_df = pd.DataFrame(
+            stocks_list,
+            columns=['회사명', '추천 이유', '추천 날짜', '목표 수익률', '진행 여부']
+        )
         stocks_df['추천 이유'] = stocks_df['추천 이유'].apply(
-            lambda x: x if len(x) <= 35 else x[:35] + '...')
-
-        # 필터링된 데이터 표시 (수정)
+            lambda x: x if len(x) <= 35 else x[:35] + '...'
+        )
         if status_option == "전체":
             filtered_df = stocks_df
         else:
             filtered_df = stocks_df[stocks_df['진행 여부'] == status_option]
 
-        st.table(filtered_df)  # 수정: stocks_df -> filtered_df
-
+        # 데이터프레임을 스타일링하고 너비를 조정하며 인덱스를 숨깁니다.
+        # 데이터프레임을 스타일링하고 너비를 조정하며 인덱스를 숨깁니다.
+        # st.dataframe(
+        #     filtered_df.style.apply(highlight_status, axis=1),
+        #     width=700,  # 원하는 너비로 조정하세요
+        #     height=300,  # 원하는 높이로 조정하세요
+        # )
+        filtered_df = filtered_df.set_index(filtered_df.columns[0])
+        st.dataframe(filtered_df.style.apply(highlight_status, axis=1))
+        # st.write(filtered_df.to_html(index=False), unsafe_allow_html=True)  # 인덱스 없이 HTML로 변환하여 표시
+        
         st.markdown(
             """
         <div style='background-color: white; height: 2px; margin: 30px 0;'></div>
@@ -446,14 +464,14 @@ with tab2:
         st.write("### 상세 정보를 보고 싶은 종목을 선택하세요:")
         symbol_selected = st.selectbox("", stocks_df['회사명'])
 
-        if symbol_selected:
-            # 회사 이름에 해당하는 티커를 Firebase에서 조회
-            ticker = get_ticker_from_firebase(symbol_selected, country)
-            if ticker:
-                st.session_state['selected_symbol'] = ticker
-                show_stock_details(country, ticker, symbol_selected)
-            else:
-                st.error("선택한 회사의 티커를 찾을 수 없습니다.")
+    if symbol_selected:
+        # 회사 이름에 해당하는 티커를 Firebase에서 조회
+        ticker = get_ticker_from_firebase(symbol_selected, country)
+        if ticker:
+            st.session_state['selected_symbol'] = ticker
+            show_stock_details(country, ticker, symbol_selected)
+        else:
+            st.error("선택한 회사의 티커를 찾을 수 없습니다.")
     else:
         st.error("종목 리스트를 가져오는 데 실패했습니다.")
 
