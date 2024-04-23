@@ -12,6 +12,40 @@ from firebase_admin import firestore, storage
 import os
 import json
 
+custom_css = """
+<style>
+    div.stButton > button:first-child {
+        color: white;
+        background-color: #0d6efd;
+        padding: 8px 16px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #0d6efd;
+    }
+    .metric-label {
+        font-size: 16px;
+        color: #0e1117;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .metric-value {
+        font-size: 24px;
+        color: #0e1117;
+    }
+    .metric-container {
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 10px;
+        text-align: center;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+    }
+    .metric-container:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+</style>
+"""
+
 @st.cache(ttl=180)
 def cached_get_stock_info(country, symbol):
     """주식 정보를 가져오는 함수입니다."""
@@ -58,11 +92,41 @@ def show_stock_details(country, symbol, name):
             blob.make_public()
             st.image(blob.public_url , caption='차트 분석 이미지')
             st.write("")
-            st.write(f"**샤프 지수 :** {round((stock_info['financial_metrics']['Sharpe Ratio']), 3)}") 
-            st.write(f"**최대 손실폭 :** {round((stock_info['financial_metrics']['Maximum Drawdown']), 3)}")  
-            st.write(f"**베타값 :** {round((stock_info['financial_metrics']['Beta']), 3)}")  
-            st.write(f"**알파 :** {round((stock_info['financial_metrics']['Alpha']), 3)}")
-            st.write(f"**트레이너 비율 :** {round((stock_info['financial_metrics']['Treynor Ratio']), 3)}") 
+            # st.write(f"**샤프 지수 :** {round((stock_info['financial_metrics']['Sharpe Ratio']), 3)}") 
+            # st.write(f"**최대 손실폭 :** {round((stock_info['financial_metrics']['Maximum Drawdown']), 3)}")  
+            # st.write(f"**베타값 :** {round((stock_info['financial_metrics']['Beta']), 3)}")  
+            # st.write(f"**알파 :** {round((stock_info['financial_metrics']['Alpha']), 3)}")
+            # st.write(f"**트레이너 비율 :** {round((stock_info['financial_metrics']['Treynor Ratio']), 3)}") 
+
+
+            
+            metric_keys = ['Sharpe Ratio', 'Maximum Drawdown', 'Beta', 'Alpha', 'Treynor Ratio']
+            col1, col2, col3, col4, col5 = st.columns(5)
+            columns = [col1, col2, col3, col4, col5]
+        
+            for col, key in zip(columns, metric_keys):
+                value = round(stock_info['financial_metrics'][key], 3)
+                with col:
+                    st.markdown(custom_css, unsafe_allow_html=True)  # Apply custom CSS
+                    st.markdown(
+                        f"""
+                        <div class="metric-container">
+                            <div class="metric-label">
+                                {key}
+                            </div>
+                            <div class="metric-value">
+                                {value}
+                            </div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
+
+
+
+
+            
+            st.write("")
             st.markdown(f"**추천 이유:**<br> <br> {stock_info['recommendation_reason']}", unsafe_allow_html=True)
             # Parse the dates from string to datetime objects
             dates = pd.to_datetime(list(stock_info['price'].keys()))
