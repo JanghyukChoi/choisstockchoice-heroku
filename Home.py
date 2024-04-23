@@ -61,7 +61,7 @@ def show_stock_details(country, symbol, name):
             st.write(f"**샤프 지수 :** {round((stock_info['financial_metrics']['Sharpe Ratio']), 3)}") 
             st.write(f"**최대 손실폭 :** {round((stock_info['financial_metrics']['Maximum Drawdown']), 3)}")  
             st.write(f"**베타값 :** {round((stock_info['financial_metrics']['Beta']), 3)}")  
-            st.wrtie(f"**알파 :** {round((stock_info['financial_metrics']['Alpha']), 3)}")
+            st.write(f"**알파 :** {round((stock_info['financial_metrics']['Alpha']), 3)}")
             st.write(f"**트레이너 비율 :** {round((stock_info['financial_metrics']['Treynor Ratio']), 3)}") 
             st.markdown(f"**추천 이유:**<br> <br> {stock_info['recommendation_reason']}", unsafe_allow_html=True)
             # Parse the dates from string to datetime objects
