@@ -12,6 +12,11 @@ from firebase_admin import firestore, storage
 import os
 import json
 
+# 데이터프레임을 받아 스타일을 적용하고 인덱스를 숨기는 함수
+def display_dataframe(df):
+    st.dataframe(df.style.apply(highlight_status, axis=1).hide_index())
+
+
 # 데이터프레임에 스타일을 적용하는 함수
 def highlight_status(row):
     if row['진행 여부'] == '성공':
@@ -372,13 +377,8 @@ with tab1:
             filtered_df = stocks_df[stocks_df['진행 여부'] == status_option]
 
         # 데이터프레임을 스타일링하고 너비를 조정하며 인덱스를 숨깁니다.
-        st.dataframe(
-            filtered_df.style.apply(highlight_status, axis=1),
-            width=700,  # 원하는 너비로 조정하세요
-            height=300  # 원하는 높이로 조정하세요
-        )
-        st.write(filtered_df.to_html(index=False), unsafe_allow_html=True)  # 인덱스 없이 HTML로 변환하여 표시
-         #===============================
+        display_dataframe(filtered_df)
+        
         st.markdown(
             """
         <div style='background-color: white; height: 2px; margin: 30px 0;'></div>
