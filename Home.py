@@ -227,6 +227,7 @@ if 'selected_symbol' not in st.session_state:
 
 
 #==========================================
+# Define the custom CSS for the page header design with modifications
 header_css = """
 <style>
     .header-container {
@@ -235,26 +236,34 @@ header_css = """
     }
     .header-title {
         font-size: 48px;
-        color: #E0004D; /* Adjust the color to match the design */
+        color: #FFFFFF; /* Changed to white color */
         font-weight: bold;
         margin-bottom: 0;
     }
     .header-subtitle {
         font-size: 24px;
         color: black;
-        border-top: 3px solid black; /* Adjust the thickness to match the design */
-        display: inline-block;
-        padding-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin-top: 0;
+    }
+    .header-subtitle:before,
+    .header-subtitle:after {
+        content: '';
+        flex: 1;
+        border-bottom: 3px solid black;
+        margin: 0px 10px; /* Adjust the spacing around the lines */
     }
 </style>
 """
+
 
 # Streamlit app main code
 # ...
 
 st.set_page_config(page_title="주식 추천 사이트",
-                   page_icon=":chart_with_upwards_trend:", layout="wide")
+                   page_icon=":chart_with_upwards_trend:")
 
 # Insert the custom header at the very top of the page
 st.markdown(header_css, unsafe_allow_html=True)
