@@ -14,34 +14,26 @@ import json
 
 custom_css = """
 <style>
-    div.stButton > button:first-child {
-        color: white;
-        background-color: #0d6efd;
-        padding: 8px 16px;
-        margin: 10px 0;
-        border-radius: 5px;
-        border: 1px solid #0d6efd;
+    .metric-container {
+        background-color: #000000;  /* Black background */
+        color: #ffffff;             /* White text */
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 10px;
+        text-align: center;
+        box-shadow: 0 4px 8px 0 rgba(255,255,255,0.2); /* Light shadow for depth */
+        transition: 0.3s;
+    }
+    .metric-container:hover {
+        box-shadow: 0 8px 16px 0 rgba(255,255,255,0.2);
     }
     .metric-label {
         font-size: 16px;
-        color: #0e1117;
         margin-bottom: 5px;
         font-weight: bold;
     }
     .metric-value {
         font-size: 24px;
-        color: #0e1117;
-    }
-    .metric-container {
-        border-radius: 10px;
-        padding: 15px;
-        margin-bottom: 10px;
-        text-align: center;
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        transition: 0.3s;
-    }
-    .metric-container:hover {
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
     }
 </style>
 """
