@@ -234,13 +234,11 @@ header_css = """
     }
     .header-title {
         font-size: 48px;
-        color: #FFFFFF; /* Changed to white color */
         font-weight: bold;
         margin-bottom: 0;
     }
     .header-subtitle {
         font-size: 24px;
-        color: green;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -253,13 +251,25 @@ header_css = """
         border-bottom: 3px solid green;
         margin: 0px 5px; /* Adjust the spacing around the lines */
     }
+
+    /* Light mode styles */
+    @media (prefers-color-scheme: light) {
+        .header-title, .header-subtitle {
+            color: #000000; /* Black color text */
+        }
+    }
+
+    /* Dark mode styles */
+    @media (prefers-color-scheme: dark) {
+        .header-title, .header-subtitle {
+            color: #FFFFFF; /* White color text */
+        }
+    }
 </style>
 """
 
-
 # Streamlit app main code
 # ...
-
 st.set_page_config(page_title="주식 추천 사이트",
                    page_icon=":chart_with_upwards_trend:", layout="wide")
 
