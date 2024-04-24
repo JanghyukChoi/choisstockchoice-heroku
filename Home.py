@@ -463,7 +463,7 @@ with tab1:
         ticker = get_ticker_from_firebase(symbol_selected, country)
         if ticker:
             st.session_state['selected_symbol'] = ticker
-            show_stock_details("US", "VZ", "Verizon") #여기다
+            show_stock_details(country, ticker, "Verizon") #여기다
         else:
             st.error("선택한 회사의 티커를 찾을 수 없습니다.")
     else:
