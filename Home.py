@@ -53,26 +53,14 @@ custom_css = """
 </style>
 """
 
-# @st.cache(ttl=180)
-# def cached_get_stock_info(country, symbol):
-#     """주식 정보를 가져오는 함수입니다."""
-#     response = requests.get(f"{BASE_URL}/stocks/{country}/{symbol}")
-#     if response.status_code == 200:
-#         return response.json()
-#     else:
-#         return None
-
 @st.cache(ttl=180)
 def cached_get_stock_info(country, symbol):
     """주식 정보를 가져오는 함수입니다."""
     response = requests.get(f"{BASE_URL}/stocks/{country}/{symbol}")
     if response.status_code == 200:
-        st.write("API 호출 성공: ", response.json())  # 로그 추가
         return response.json()
     else:
-        st.write("API 호출 실패: ", response.status_code)  # 로그 추가
         return None
-
 
 
 def get_stock_history(symbol, recommendation_date, current_date):
@@ -475,7 +463,7 @@ with tab1:
         ticker = get_ticker_from_firebase(symbol_selected, country)
         if ticker:
             st.session_state['selected_symbol'] = ticker
-            show_stock_details(country, ticker, symbol_selected)
+            show_stock_details("US", "VZ", "Verizon") #여기다
         else:
             st.error("선택한 회사의 티커를 찾을 수 없습니다.")
     else:
