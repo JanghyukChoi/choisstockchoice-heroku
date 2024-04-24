@@ -105,27 +105,27 @@ def show_stock_details(country, symbol, name):
 
             #여기다
             
-            # metric_keys = ['Sharpe Ratio', 'Maximum Drawdown', 'Beta', 'Alpha', 'Treynor Ratio']
-            # col1, col2, col3, col4, col5 = st.columns(5)
-            # columns = [col1, col2, col3, col4, col5]
+            metric_keys = ['Sharpe Ratio', 'Maximum Drawdown', 'Beta', 'Alpha', 'Treynor Ratio']
+            col1, col2, col3, col4, col5 = st.columns(5)
+            columns = [col1, col2, col3, col4, col5]
         
-            # for col, key in zip(columns, metric_keys):
-            #     value = round(stock_info['financial_metrics'][key], 3)
-            #     with col:
-            #         st.markdown(custom_css, unsafe_allow_html=True)  # Apply custom CSS
-            #         st.markdown(
-            #             f"""
-            #             <div class="metric-container">
-            #                 <div class="metric-label">
-            #                     {key}
-            #                 </div>
-            #                 <div class="metric-value">
-            #                     {value}
-            #                 </div>
-            #             </div>
-            #             """,
-            #             unsafe_allow_html=True
-            #         )
+            for col, key in zip(columns, metric_keys):
+                value = round(stock_info['financial_metrics'][key], 3)
+                with col:
+                    st.markdown(custom_css, unsafe_allow_html=True)  # Apply custom CSS
+                    st.markdown(
+                        f"""
+                        <div class="metric-container">
+                            <div class="metric-label">
+                                {key}
+                            </div>
+                            <div class="metric-value">
+                                {value}
+                            </div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True
+                    )
 
 
 
