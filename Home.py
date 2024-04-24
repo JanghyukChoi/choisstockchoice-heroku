@@ -239,6 +239,7 @@ header_css = """
     }
     .header-subtitle {
         font-size: 24px;
+         color: green;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -254,14 +255,14 @@ header_css = """
 
     /* Light mode styles */
     @media (prefers-color-scheme: light) {
-        .header-title, .header-subtitle {
+        .header-title {
             color: #000000; /* Black color text */
         }
     }
 
     /* Dark mode styles */
     @media (prefers-color-scheme: dark) {
-        .header-title, .header-subtitle {
+        .header-title {
             color: #FFFFFF; /* White color text */
         }
     }
