@@ -253,19 +253,6 @@ header_css = """
         margin: 0px 5px; /* Adjust the spacing around the lines */
     }
 
-    /* Light mode styles */
-    @media (prefers-color-scheme: light) {
-        .header-title {
-            color: #000000; /* Black color text */
-        }
-    }
-
-    /* Dark mode styles */
-    @media (prefers-color-scheme: dark) {
-        .header-title {
-            color: #FFFFFF; /* White color text */
-        }
-    }
 </style>
 """
 
