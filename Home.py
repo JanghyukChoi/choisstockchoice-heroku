@@ -53,14 +53,26 @@ custom_css = """
 </style>
 """
 
+# @st.cache(ttl=180)
+# def cached_get_stock_info(country, symbol):
+#     """주식 정보를 가져오는 함수입니다."""
+#     response = requests.get(f"{BASE_URL}/stocks/{country}/{symbol}")
+#     if response.status_code == 200:
+#         return response.json()
+#     else:
+#         return None
+
 @st.cache(ttl=180)
 def cached_get_stock_info(country, symbol):
     """주식 정보를 가져오는 함수입니다."""
     response = requests.get(f"{BASE_URL}/stocks/{country}/{symbol}")
     if response.status_code == 200:
+        st.write("API 호출 성공: ", response.json())  # 로그 추가
         return response.json()
     else:
+        st.write("API 호출 실패: ", response.status_code)  # 로그 추가
         return None
+
 
 
 def get_stock_history(symbol, recommendation_date, current_date):
