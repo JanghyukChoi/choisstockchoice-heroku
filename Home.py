@@ -99,7 +99,7 @@ def show_stock_details(country, symbol, name):
 
                 col1, col2, col3 = st.columns([1, 2, 1])  # 중앙 정렬을 위해 컬럼을 사용합니다.
                 with col2:  # 중앙 컬럼에 버튼을 위치시킵니다.
-                    if st.button(f"머신러닝 모델로 도출한 {name}의 예상 수익률은?", key="predict_button"):
+                    if st.button(f"머신러닝 모델로 도출한 {name}의 예상 수익률은?"):
                         st.switch_page("pages/1_머신러닝을 활용한 주가예측.py")
                 
                 st.write("")  # 여백 추가
