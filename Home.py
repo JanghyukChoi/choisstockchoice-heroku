@@ -92,8 +92,21 @@ def show_stock_details(country, symbol, name):
             color = "green" if stock_info['return_rate'] >= 0 else "red"
             st.markdown(f"<span style='color: {color};'>**현재 수익률: {round(stock_info['return_rate'], 2)}%**</span>", unsafe_allow_html=True)
 
-            if st.button("머신러닝 모델이 도출한 " + name + " 의 기대수익률은?"):
-                st.switch_page("pages/1_머신러닝을 활용한 주가예측.py")
+            # if st.button("머신러닝 모델이 도출한 " + name + " 의 기대수익률은?"):
+            #     st.switch_page("pages/1_머신러닝을 활용한 주가예측.py")
+
+            with st.container():
+
+                col1, col2, col3 = st.columns([1, 2, 1])  # 중앙 정렬을 위해 컬럼을 사용합니다.
+                with col2:  # 중앙 컬럼에 버튼을 위치시킵니다.
+                    if st.button(f"머신러닝 모델로 도출한 {name}의 예상 수익률은?", key="predict_button"):
+                        st.switch_page("pages/1_머신러닝을 활용한 주가예측.py")
+                
+                st.write("")  # 여백 추가
+
+
+
+            
             file_path = f"{name}/스크린샷_myfile.png"
             # 스토리지 버킷에서 파일에 대한 참조 생성
             blob = bucket.blob(file_path)
