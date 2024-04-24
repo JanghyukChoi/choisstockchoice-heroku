@@ -84,7 +84,7 @@ def show_stock_details(country, symbol, name):
         if stock_info:
             st.write(f"### {name} 종목 상세 정보")
             # Assuming `create_link` generates a clickable link to view more details
-            st.write(f"**사이트:**{create_link(country, symbol)}")
+            st.write(f"**사이트:** {create_link(country, symbol)}")
             st.write(f"**마지막 종가:** {round((stock_info['last_close']), 2)}")
             st.write(
                 f"**추천 날짜 종가:** {round((stock_info['recommendation_close']), 2)}")
