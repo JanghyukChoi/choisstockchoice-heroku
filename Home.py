@@ -84,13 +84,16 @@ def show_stock_details(country, symbol, name):
         if stock_info:
             st.write(f"### {name} 종목 상세 정보")
             # Assuming `create_link` generates a clickable link to view more details
-            st.write(create_link(country, symbol))
+            st.write(f"**웹사이트: **{create_link(country, symbol)}")
             st.write(f"**마지막 종가:** {round((stock_info['last_close']), 2)}")
             st.write(
                 f"**추천 날짜 종가:** {round((stock_info['recommendation_close']), 2)}")
             st.write(f"**목표 수익률:** {stock_info['target_return']}")
             color = "green" if stock_info['return_rate'] >= 0 else "red"
             st.markdown(f"<span style='color: {color};'>**현재 수익률: {round(stock_info['return_rate'], 2)}%**</span>", unsafe_allow_html=True)
+
+            if st.button("머신러닝 모델로 평가한 " + name + " 의 기대수익률"):
+                st.switch_page("pages/1_머신러닝을 활용한 주가예측.py")
             file_path = f"{name}/스크린샷_myfile.png"
             # 스토리지 버킷에서 파일에 대한 참조 생성
             blob = bucket.blob(file_path)
