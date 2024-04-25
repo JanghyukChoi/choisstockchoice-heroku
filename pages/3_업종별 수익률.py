@@ -17,6 +17,15 @@ import numpy as np
 import pandas as pd
 
 
+@st.cache(ttl=800)
+def cached_update_sector_info(country):
+    """주식 정보를 가져오는 함수입니다."""
+    response = requests.get(f"{BASE_URL}/sector/calculate/{country}")
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+
 BASE_URL = "https://fastapi-app-ozus.onrender.com"
 
 @st.cache(ttl=800)
@@ -40,9 +49,10 @@ def display_sectors(country):
 def main():
     st.title("Sector Performance Dashboard")
     st.write("시기별로 각 업종의 수익률을 보여드립니다. 이를 통해 업종의 눌림목과 돌파 시기를 파악할 수 있습니다")
-    country = st.selectbox("Choose a country", ["Korea", "US"])  # Example countries
+    country = st.selectbox("Choose a country", ["KR", "US"])  # Example countries
     if st.button("Show Sector Data"):
         display_sectors(country)
+        cached_update_sector_info(country)
 
 if __name__ == "__main__":
     main()
