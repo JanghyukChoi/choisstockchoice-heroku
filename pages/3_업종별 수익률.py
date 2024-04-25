@@ -12,7 +12,6 @@ import FinanceDataReader as fdr
 import numpy as np
 import streamlit as st
 import requests
-
 import numpy as np
 import pandas as pd
 
@@ -37,6 +36,8 @@ def get_sector(country):
         return None
 
 
+
+
 def display_sectors(country):
     sector_data = get_sector(country)
     if sector_data:
@@ -48,50 +49,29 @@ def display_sectors(country):
         # Sort by sector names if needed
         df = df.sort_index()
 
-        # Custom CSS to center the DataFrame and make index bold
-# Custom CSS
-        css = """
-        <style>
-            .styled-table {
-                width: 100%;
-                border-collapse: collapse;
-                margin: 25px 0;
-                font-size: 16px; /* Larger font size */
-                font-family: sans-serif;
-                min-height: 400px; /* Adjust height as needed */
-                line-height: 1.5;
-            }
-            .styled-table thead tr {
-                background-color: #009879;
-                color: white;
-                text-align: left;
-            }
-            .styled-table th,
-            .styled-table td {
-                padding: 12px 15px;
-                text-align: center;
-            }
-            .styled-table tbody tr:nth-of-type(even) {
-                background-color: #f3f3f3;
-            }
-            .styled-table tbody tr:last-of-type {
-                border-bottom: 2px solid #009879;
-            }
-            .styled-table th {
-                font-weight: bold; /* Make header bold */
-                font-size: 20px; /* Larger font size for headers */
-            }
-            .styled-table td:first-child, .styled-table th:first-child {
-                font-weight: bold; /* Make first column bold */
-                font-size: 18px; /* Larger font size for index column */
-            }
-        </style>
-        """
-        st.markdown(css)
-        
-        st.dataframe(df, height=600)  # Adjust height if needed to display all rows
+        # Convert DataFrame to HTML with custom CSS for styling
+        st.markdown("""
+            <style>
+                .dataframe {
+                    font-size: 18px; /* Increase font size */
+                    width: 100%; /* Full width */
+                    margin-left: auto; /* Centering the table */
+                    margin-right: auto;
+                }
+                .dataframe th {
+                    font-weight: bold; /* Bold font for all column headers */
+                }
+                .dataframe th:first-child, .dataframe td:first-child {
+                    font-weight: bold; /* Bold font for the first column */
+                }
+            </style>
+            """, unsafe_allow_html=True)
+
+        # Display the DataFrame with container width maximized
+        st.dataframe(df, use_container_width=True)
     else:
         st.write("No sector data available for the specified country.")
+
 
 # Streamlit UI components
 def main():
