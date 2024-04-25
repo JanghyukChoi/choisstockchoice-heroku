@@ -40,6 +40,7 @@ def get_sector(country):
 import streamlit as st
 import pandas as pd
 
+
 def display_sectors(country):
     sector_data = get_sector(country)
     if sector_data:
@@ -54,12 +55,15 @@ def display_sectors(country):
         # Sort by sector names if needed
         df = df.sort_index()
 
-        # Custom CSS for styling
+        # Apply custom styling
+        df_html = df.style.applymap(color_based_on_value).render()
+
+        # Custom CSS for general styling
         st.markdown("""
             <style>
                 .dataframe {
                     font-size: 20px; /* Increase font size */
-                    width: 80%; /* Full width */
+                    width: 80%; /* Adjust width */
                     height: 100%;
                     margin-left: auto; /* Centering the table */
                     margin-right: auto;
@@ -74,17 +78,36 @@ def display_sectors(country):
                     font-weight: bold; /* Bold font for all cells */
                 }
             </style>
-            """, unsafe_allow_html=True)
+            """ + df_html, unsafe_allow_html=True)  # Append the styled HTML
 
-        # Display the DataFrame with container width maximized
-        st.dataframe(df, use_container_width=True, height=(len(df) + 1) * 35 + 3)
     else:
-# Streamlit UI components
         st.write("No sector data available for the specified country.")
+
+def color_based_on_value(val):
+    """
+    Apply color based on the value inside the cell.
+    Expects the value in string format with percentage sign.
+    """
+    # Remove '%' and convert to float to apply conditions
+    num = float(val.strip('%'))
+    if num >= 20:
+        color = 'green'  # Darker green for 20% and above
+    elif num >= 10:
+        color = '#b8e994'  # Light green for 10% and above
+    elif num <= -20:
+        color = 'red'  # Darker red for -20% and below
+    elif num <= -10:
+        color = '#f4cccc'  # Light red for -10% and below
+    else:
+        color = 'none'  # Default no background
+
+    return f'background-color: {color};'
+
+# Streamlit UI components
 def main():
     st.title("업종별 수익률 대시보드")
     st.markdown('''
-시기별로 각 업종의 수익률을 보여드립니다.  
+시기별로 각 업종의 수익률을 보여드립니다.
 이를 통해 업종의 <span style="color: green;">**눌림목**</span>과 <span style="color: green;">**돌파시기**</span>를 파악할 수 있습니다
 ''', unsafe_allow_html=True)
     country = st.selectbox("Choose a country", ["KR", "US"])  # Example countries
@@ -94,3 +117,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
