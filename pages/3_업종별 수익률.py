@@ -8,8 +8,6 @@ import firebase_admin
 from datetime import timedelta
 from firebase_admin import credentials, firestore
 from fastapi.responses import JSONResponse
-from fastapi_cache import FastAPICache
-from fastapi_cache.backends.redis import RedisBackend
 import aioredis
 import FinanceDataReader as fdr
 import numpy as np
