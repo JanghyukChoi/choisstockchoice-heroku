@@ -40,7 +40,6 @@ def get_sector(country):
 import streamlit as st
 import pandas as pd
 
-
 def display_sectors(country):
     sector_data = get_sector(country)
     if sector_data:
@@ -55,15 +54,12 @@ def display_sectors(country):
         # Sort by sector names if needed
         df = df.sort_index()
 
-        # Apply custom styling
-        styled_df = df.style.applymap(color_based_on_value)
-
-        # Custom CSS for general styling, integrate styled dataframe using st.write or directly st.dataframe
+        # Custom CSS for styling
         st.markdown("""
             <style>
                 .dataframe {
                     font-size: 20px; /* Increase font size */
-                    width: 80%; /* Adjust width */
+                    width: 80%; /* Full width */
                     height: 100%;
                     margin-left: auto; /* Centering the table */
                     margin-right: auto;
@@ -79,30 +75,16 @@ def display_sectors(country):
                 }
             </style>
             """, unsafe_allow_html=True)
-        st.dataframe(styled_df)  # Use Streamlit's native support for Styler
-    else:
-        st.write("No sector data available for the specified country.")
 
-def color_based_on_value(val):
-    """Applies color based on the value inside the cell."""
-    num = float(val.strip('%'))
-    if num >= 20:
-        color = 'green'
-    elif num >= 10:
-        color = '#b8e994'
-    elif num <= -20:
-        color = 'red'
-    elif num <= -10:
-        color = '#f4cccc'
+        # Display the DataFrame with container width maximized
+        st.dataframe(df, use_container_width=True, height=(len(df) + 1) * 35 + 3)
     else:
-        color = 'none'
-    return f'background-color: {color};'
-
 # Streamlit UI components
+        st.write("No sector data available for the specified country.")
 def main():
     st.title("업종별 수익률 대시보드")
     st.markdown('''
-시기별로 각 업종의 수익률을 보여드립니다.
+시기별로 각 업종의 수익률을 보여드립니다.  
 이를 통해 업종의 <span style="color: green;">**눌림목**</span>과 <span style="color: green;">**돌파시기**</span>를 파악할 수 있습니다
 ''', unsafe_allow_html=True)
     country = st.selectbox("Choose a country", ["KR", "US"])  # Example countries
@@ -112,4 +94,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
