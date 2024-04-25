@@ -58,7 +58,7 @@ def display_sectors(country):
         st.markdown("""
             <style>
                 .dataframe {
-                    font-size: 18px; /* Increase font size */
+                    font-size: 20px; /* Increase font size */
                     width: 80%; /* Full width */
                     height: 100%;
                     margin-left: auto; /* Centering the table */
