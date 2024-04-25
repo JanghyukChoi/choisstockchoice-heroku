@@ -43,6 +43,7 @@ import pandas as pd
 import streamlit as st
 import pandas as pd
 
+
 def display_sectors(country):
     sector_data = get_sector(country)
     if sector_data:
@@ -54,26 +55,25 @@ def display_sectors(country):
         # Sort by sector names if needed
         df = df.sort_index()
 
-        # Convert DataFrame to HTML with custom CSS for styling
-        st.markdown("""
-            <style>
-                .dataframe {
-                    font-size: 18px; /* Increase font size */
-                    width: 100%; /* Full width */
-                    margin-left: auto; /* Centering the table */
-                    margin-right: auto;
-                }
-                .dataframe th {
-                    font-weight: bold; /* Bold font for all column headers */
-                }
-                .dataframe th:first-child, .dataframe td:first-child {
-                    font-weight: bold; /* Bold font for the first column */
-                }
-            </style>
-            """, unsafe_allow_html=True)
+        # Convert DataFrame to HTML
+        html = df.to_html(classes="table table-striped", border=0, index=True)
 
-        # Display the DataFrame with container width maximized
-        st.dataframe(df, use_container_width=True)
+        # Custom CSS to enhance table appearance and make it non-scrollable
+        st.markdown(f"""
+            <style>
+                .table {{
+                    font-size: 16px; /* Adjust font size as needed */
+                    width: 100%; /* Full width to expand to container size */
+                }}
+                .table th {{
+                    font-weight: bold; /* Bold headers */
+                }}
+                .table th, .table td {{
+                    text-align: center; /* Centering text in cells */
+                }}
+            </style>
+            {html}
+            """, unsafe_allow_html=True)
     else:
         st.write("No sector data available for the specified country.")
 
