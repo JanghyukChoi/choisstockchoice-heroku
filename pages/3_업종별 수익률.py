@@ -47,8 +47,8 @@ def display_sectors(country):
 
 # Streamlit UI components
 def main():
-    st.title("Sector Performance Dashboard")
-    st.write("시기별로 각 업종의 수익률을 보여드립니다. 이를 통해 업종의 눌림목과 돌파 시기를 파악할 수 있습니다")
+    st.title("업종별 수익률 대시보드")
+    st.write("시기별로 각 업종의 수익률을 보여드립니다. \n 이를 통해 업종의 *눌림목*과 *돌파시기*를 파악할 수 있습니다")
     country = st.selectbox("Choose a country", ["KR", "US"])  # Example countries
     if st.button("Show Sector Data"):
         display_sectors(country)
