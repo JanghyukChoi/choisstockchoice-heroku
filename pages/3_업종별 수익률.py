@@ -87,7 +87,7 @@ def display_sectors(country):
             }
         </style>
         """
-        st.write(css, unsafe_allow_html=True)
+        st.markdown(css)
         
         st.dataframe(df, height=600)  # Adjust height if needed to display all rows
     else:
