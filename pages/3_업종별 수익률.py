@@ -8,7 +8,6 @@ import firebase_admin
 from datetime import timedelta
 from firebase_admin import credentials, firestore
 from fastapi.responses import JSONResponse
-import aioredis
 import FinanceDataReader as fdr
 import numpy as np
 import streamlit as st
