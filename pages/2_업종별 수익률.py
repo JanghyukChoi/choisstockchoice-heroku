@@ -80,6 +80,7 @@ def display_sectors(country):
         st.dataframe(df, use_container_width=True, height=(len(df) + 1) * 35 + 3)
     else:
 # Streamlit UI components
+        st.write("No sector data available for the specified country.")
 def main():
     st.title("업종별 수익률 대시보드")
     st.markdown('''
