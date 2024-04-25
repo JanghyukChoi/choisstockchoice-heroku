@@ -40,6 +40,9 @@ def get_sector(country):
 import streamlit as st
 import pandas as pd
 
+import streamlit as st
+import pandas as pd
+
 def display_sectors(country):
     sector_data = get_sector(country)
     if sector_data:
@@ -51,25 +54,21 @@ def display_sectors(country):
         # Sort by sector names if needed
         df = df.sort_index()
 
-        # Calculate approximate height for the dataframe display
-        # Estimate 30 pixels per row and add a little extra for header
-        num_rows = len(df.index)
-        estimated_height = num_rows * 100 + 60  # Adjust based on your content and header size
-
-        # Custom CSS to adjust dataframe height and other styles
-        st.markdown(f"""
+        # Convert DataFrame to HTML with custom CSS for styling
+        st.markdown("""
             <style>
-                .dataframe-container .dataframe {{
+                .dataframe {
                     font-size: 18px; /* Increase font size */
-                    height: {estimated_height}px; /* Adjust height dynamically based on row count */
-                }}
-                .dataframe-container .dataframe th {{
+                    width: 100%; /* Full width */
+                    margin-left: auto; /* Centering the table */
+                    margin-right: auto;
+                }
+                .dataframe th {
                     font-weight: bold; /* Bold font for all column headers */
-                }}
-                .dataframe-container .dataframe th:first-child,
-                .dataframe-container .dataframe td:first-child {{
+                }
+                .dataframe th:first-child, .dataframe td:first-child {
                     font-weight: bold; /* Bold font for the first column */
-                }}
+                }
             </style>
             """, unsafe_allow_html=True)
 
@@ -77,6 +76,7 @@ def display_sectors(country):
         st.dataframe(df, use_container_width=True)
     else:
         st.write("No sector data available for the specified country.")
+
 
 # Streamlit UI components
 def main():
