@@ -54,7 +54,7 @@ def display_sectors(country):
         # Calculate approximate height for the dataframe display
         # Estimate 30 pixels per row and add a little extra for header
         num_rows = len(df.index)
-        estimated_height = num_rows * 30 + 60  # Adjust based on your content and header size
+        estimated_height = num_rows * 100 + 60  # Adjust based on your content and header size
 
         # Custom CSS to adjust dataframe height and other styles
         st.markdown(f"""
