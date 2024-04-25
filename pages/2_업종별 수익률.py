@@ -77,7 +77,8 @@ def display_sectors(country):
             """, unsafe_allow_html=True)
 
         # Display the DataFrame with container width maximized
-        st.dataframe(df, use_container_width=True, height=(len(df) + 1) * 35 + 3)
+        
+        st.dataframe(df.style.highlight_max(axis=1), use_container_width=True, height=(len(df) + 1) * 35 + 3)
     else:
 # Streamlit UI components
         st.write("No sector data available for the specified country.")
