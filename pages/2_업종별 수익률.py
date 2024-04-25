@@ -75,7 +75,7 @@ def display_sectors(country):
             """, unsafe_allow_html=True)
 
         # Display the DataFrame with container width maximized
-        st.dataframe(df, use_container_width=True, height=100%)
+        st.dataframe(df, use_container_width=True, height= (15 + 1) * 35 + 3)
     else:
         st.write("No sector data available for the specified country.")
 
