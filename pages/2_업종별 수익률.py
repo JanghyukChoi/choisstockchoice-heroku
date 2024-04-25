@@ -40,10 +40,6 @@ def get_sector(country):
 import streamlit as st
 import pandas as pd
 
-import streamlit as st
-import pandas as pd
-
-
 def display_sectors(country):
     sector_data = get_sector(country)
     if sector_data:
@@ -52,33 +48,37 @@ def display_sectors(country):
         df = pd.DataFrame.from_dict(sector_data, orient='index')
         df = df[column_order]  # Reorder columns according to the specified list
 
+        # Round data to two decimals and append '%'
+        df = df.applymap(lambda x: f"{x:.2f}%")
+
         # Sort by sector names if needed
         df = df.sort_index()
 
-        # Convert DataFrame to HTML with custom CSS for styling
+        # Custom CSS for styling
         st.markdown("""
             <style>
                 .dataframe {
                     font-size: 18px; /* Increase font size */
-                    width: 100%; /* Full width */
+                    width: 80%; /* Full width */
                     height: 100%;
                     margin-left: auto; /* Centering the table */
                     margin-right: auto;
                 }
-                .dataframe th {
-                    font-weight: bold; /* Bold font for all column headers */
+                .dataframe thead {
+                    background-color: #b8e994; /* Light green background for headers */
                 }
-                .dataframe th:first-child, .dataframe td:first-child {
-                    font-weight: bold; /* Bold font for the first column */
+                .dataframe tbody tr th {
+                    background-color: #b8e994; /* Light green background for index */
+                }
+                .dataframe th, .dataframe td {
+                    font-weight: bold; /* Bold font for all cells */
                 }
             </style>
             """, unsafe_allow_html=True)
 
         # Display the DataFrame with container width maximized
-        st.dataframe(df, use_container_width=False, height= (14 + 1) * 35 + 3)
+        st.dataframe(df, use_container_width=True, height=(len(df) + 1) * 35 + 3)
     else:
-        st.write("No sector data available for the specified country.")
-
 # Streamlit UI components
 def main():
     st.title("업종별 수익률 대시보드")
