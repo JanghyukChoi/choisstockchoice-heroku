@@ -56,9 +56,9 @@ def display_sectors(country):
         df = df.sort_index()
 
         # Apply custom styling
-        df_html = df.style.applymap(color_based_on_value).render()
+        styled_df = df.style.applymap(color_based_on_value)
 
-        # Custom CSS for general styling
+        # Custom CSS for general styling, integrate styled dataframe using st.write or directly st.dataframe
         st.markdown("""
             <style>
                 .dataframe {
@@ -78,29 +78,24 @@ def display_sectors(country):
                     font-weight: bold; /* Bold font for all cells */
                 }
             </style>
-            """ + df_html, unsafe_allow_html=True)  # Append the styled HTML
-
+            """, unsafe_allow_html=True)
+        st.dataframe(styled_df)  # Use Streamlit's native support for Styler
     else:
         st.write("No sector data available for the specified country.")
 
 def color_based_on_value(val):
-    """
-    Apply color based on the value inside the cell.
-    Expects the value in string format with percentage sign.
-    """
-    # Remove '%' and convert to float to apply conditions
+    """Applies color based on the value inside the cell."""
     num = float(val.strip('%'))
     if num >= 20:
-        color = 'green'  # Darker green for 20% and above
+        color = 'green'
     elif num >= 10:
-        color = '#b8e994'  # Light green for 10% and above
+        color = '#b8e994'
     elif num <= -20:
-        color = 'red'  # Darker red for -20% and below
+        color = 'red'
     elif num <= -10:
-        color = '#f4cccc'  # Light red for -10% and below
+        color = '#f4cccc'
     else:
-        color = 'none'  # Default no background
-
+        color = 'none'
     return f'background-color: {color};'
 
 # Streamlit UI components
