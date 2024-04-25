@@ -48,10 +48,8 @@ def display_sectors(country):
         # Sort by sector names if needed
         df = df.sort_index()
 
-        # Convert DataFrame to HTML and add custom styles
-        html = df.to_html(classes='styled-table', border=0)
-
-        # Custom CSS
+        # Custom CSS to center the DataFrame and make index bold
+# Custom CSS
         css = """
         <style>
             .styled-table {
@@ -89,9 +87,9 @@ def display_sectors(country):
             }
         </style>
         """
-        # Combine the CSS with the HTML
-        html = css + html
-        st.markdown(html, unsafe_allow_html=True)
+        st.write(css, unsafe_allow_html=True)
+        
+        st.dataframe(df, height=600)  # Adjust height if needed to display all rows
     else:
         st.write("No sector data available for the specified country.")
 
