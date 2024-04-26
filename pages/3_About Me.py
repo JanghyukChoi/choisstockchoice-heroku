@@ -44,7 +44,7 @@ st.sidebar.write(f"""
   - UFIC 연합투자동아리 16대 회장
 """)
 
-st.markdown("## About Me")
+st.markdown("# About Me")
 st.markdown(f"""
 - **학교**: 한양대학교 경제금융학과
 - **이메일**: kevin9921@naver.com
