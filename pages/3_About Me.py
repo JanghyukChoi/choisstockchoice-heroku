@@ -3,7 +3,7 @@ import pandas as pd
 import pydeck as pdk
 # ... Rest of your mapping demo code ...
 
-st.set_page_config(page_title="Mapping Demo", page_icon="🌍")
+st.set_page_config(page_title="About Me", page_icon="🌍")
 # ... Rest of your code for the mapping demo ...
 
 
@@ -30,11 +30,22 @@ st.write("""
          )
 st.write("")
 
-# Adding "About Me" section
-st.sidebar.markdown("## About Me")
-
 # Personal details and credentials
 st.sidebar.write(f"""
+- **학교**: 한양대학교 경제금융학과
+- **이메일**: kevin9921@naver.com
+- **자격증**:
+  - 투자자산운용사
+  - TOEIC 965
+- **이력**:
+  - Google ML 부트캠프
+  - 미쉐린 데이터분석팀 인턴
+  - 한국투자증권 잠실 PB지점 인턴
+  - UFIC 연합투자동아리 16대 회장
+""")
+
+st.markdown("## About Me")
+st.markdown(f"""
 - **학교**: 한양대학교 경제금융학과
 - **이메일**: kevin9921@naver.com
 - **자격증**:
