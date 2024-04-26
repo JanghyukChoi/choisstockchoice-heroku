@@ -8,7 +8,7 @@ st.set_page_config(page_title="Mapping Demo", page_icon="🌍")
 
 
 st.markdown("# About this website")
-st.sidebar.header("About this website")
+st.sidebar.header("About this website & About Me ")
 
 st.write("")
 st.write("")
